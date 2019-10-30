@@ -1,0 +1,38 @@
+PODS:
+  - SwiftyXMLParser (5.1.0)
+  - XMLMapper (1.5.3):
+    - XMLMapper/Core (= 1.5.3)
+  - XMLMapper/Core (1.5.3)
+  - XMLParsing (0.0.3)
+
+DEPENDENCIES:
+  - SwiftyXMLParser (from `https://github.com/yahoojapan/SwiftyXMLParser.git`)
+  - XMLMapper
+  - XMLParsing (from `https://github.com/ShawnMoore/XMLParsing.git`)
+
+SPEC REPOS:
+  trunk:
+    - XMLMapper
+
+EXTERNAL SOURCES:
+  SwiftyXMLParser:
+    :git: https://github.com/yahoojapan/SwiftyXMLParser.git
+  XMLParsing:
+    :git: https://github.com/ShawnMoore/XMLParsing.git
+
+CHECKOUT OPTIONS:
+  SwiftyXMLParser:
+    :commit: bc85162ecee60d6eb94b778648bc4c51e1c4d34f
+    :git: https://github.com/yahoojapan/SwiftyXMLParser.git
+  XMLParsing:
+    :commit: 594272e4df40798c53ae1735ee65f3f387291670
+    :git: https://github.com/ShawnMoore/XMLParsing.git
+
+SPEC CHECKSUMS:
+  SwiftyXMLParser: 8271497e0a37b5c04b0b167c77b4896e36175a21
+  XMLMapper: 26bfd75cd204b514b608a41681415f2bdbac1053
+  XMLParsing: 085edb6fa22c71d6b53a79299f990a91e7414d19
+
+PODFILE CHECKSUM: 1f0faeccef8f95a104474ec0361ff4f7aea5b810
+
+COCOAPODS: 1.8.4
