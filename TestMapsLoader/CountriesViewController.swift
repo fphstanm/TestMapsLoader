@@ -9,11 +9,10 @@
 import Foundation
 import UIKit
 import SwiftyXMLParser
+import RealmSwift
 
-struct Book {
-    var bookTitle: String
-    var bookAuthor: String
-}
+
+//http://download.osmand.net/download.php?standard=yes&file=Denmark_europe_2.obf.zip
 
 class CountriesTableViewController: UIViewController,
                                     UITableViewDataSource,
@@ -24,12 +23,12 @@ class CountriesTableViewController: UIViewController,
     @IBOutlet weak var freeSpace: UILabel!
         
     var regions: [Region] = []
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         parseRegionsXML()
+        
 
     }
     
@@ -38,14 +37,14 @@ class CountriesTableViewController: UIViewController,
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let countriesQuantity = regions[0].regions?.count else { return 0 }
         
-        return regions.count
+        return countriesQuantity
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            
         let cell = countriesTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! countryTableViewCell
-        cell.setup(country: regions[indexPath.row].name)
+        cell.setup(country: regions[0].regions![indexPath.row].name) //TODO force unwrap
         
         return cell
     }
@@ -74,23 +73,36 @@ class CountriesTableViewController: UIViewController,
         let xml = try! XML.parse(xmlString)
         let regionsList = xml.regions_list[0].region
         
-        regionsList.forEach { continent in
-            continent.region.forEach { countryInList in
-                let countryName = countryInList.first.attributes["name"]
+        //TODO make it easier
+        regionsList.forEach { continentInfo in
+            let continentName = continentInfo.first.attributes["name"]
+            let continent = Region(name: continentName!, regions: [])
+            regions.append(continent)
+            let continentIndex = regions.count - 1
+            
+            continentInfo.region.forEach { countryInfo in
+                let countryName = countryInfo.first.attributes["name"]
                 let country = Region(name: countryName!, regions: []) //TODO mb nil?
-                regions.append(country)
-                let currentIndex = regions.count - 1
+                regions[continentIndex].regions?.append(country)
+                let countryIndex = regions.count - 1
                 
-                countryInList.region.forEach { region in
+                countryInfo.region.forEach { region in
                     let regionName = region.first.attributes["name"]
                     let area = Region(name: regionName!, regions: nil) //TODO force unwrap
-                    regions[currentIndex].regions?.append(area)
+                    regions[continentIndex].regions?[countryIndex].regions?.append(area)
                     print(countryName!, " ", regionName!)
                 }
             }
         }
     }
         
+//    func makeCoutryObject(region: XML.Accessor) -> [Region] {
+//        for index in region {
+//
+//        }
+//        return []
+//    }
+
     func fileToString(name: String, fileType: String) -> String {
         var xmlString = ""
         if let path = Bundle.main.path(forResource: name, ofType: fileType) {
@@ -104,8 +116,6 @@ class CountriesTableViewController: UIViewController,
         }
         return xmlString
     }
-
-    
 }
 
 

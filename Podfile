@@ -5,7 +5,7 @@ target 'TestMapsLoader' do
   use_frameworks!
 
     pod "SwiftyXMLParser", :git => 'https://github.com/yahoojapan/SwiftyXMLParser.git'
-    pod 'XMLParsing', :git => 'https://github.com/ShawnMoore/XMLParsing.git'
-    pod 'XMLMapper'
+    pod 'RealmSwift'
+    pod 'Alamofire', '~> 5.0.0-rc.3'
 
 end

@@ -80,5 +80,20 @@
             </objects>
             <point key="canvasLocation" x="72.463768115942031" y="108.48214285714285"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="l7A-v6-gii">
+            <objects>
+                <viewController id="QbD-Zo-vWy" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Bt6-u7-IFl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="cic-qa-kTc"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OWi-yp-lgK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="899" y="106"/>
+        </scene>
     </scenes>
 </document>
