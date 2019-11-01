@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SwiftyXMLParser
 import RealmSwift
-
+import Alamofire
 
 //http://download.osmand.net/download.php?standard=yes&file=Denmark_europe_2.obf.zip
 
@@ -23,11 +23,14 @@ class CountriesTableViewController: UIViewController,
     @IBOutlet weak var freeSpace: UILabel!
         
     var regions: [Region] = []
+    //var documentsURL = URL(string: "")!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         parseRegionsXML()
+        downloadMap()
         
 
     }
@@ -52,6 +55,21 @@ class CountriesTableViewController: UIViewController,
     
     func setupCountryCell(cell: countryTableViewCell, country: String) {
         cell.setup(country: country)
+    }
+    
+    func downloadMap() {
+//        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
+//
+//        AF.download("https://httpbin.org/image/png", to: destination)
+        AF.download("http://download.osmand.net/download.php?standard=yes&file=Germany_berlin_europe_2.obf.zip")
+        .downloadProgress { progress in
+            print("Download Progress: \(progress.fractionCompleted)")
+        }
+        .responseData { response in
+            if let data = response.value {
+                let image = UIImage(data: data)
+            }
+        }
     }
     
     func getMemoryInfo() {
@@ -90,7 +108,7 @@ class CountriesTableViewController: UIViewController,
                     let regionName = region.first.attributes["name"]
                     let area = Region(name: regionName!, regions: nil) //TODO force unwrap
                     regions[continentIndex].regions?[countryIndex].regions?.append(area)
-                    print(countryName!, " ", regionName!)
+//                    print(countryName!, " ", regionName!)
                 }
             }
         }
@@ -119,3 +137,13 @@ class CountriesTableViewController: UIViewController,
 }
 
 
+extension Data {
+    func sizeString(units: ByteCountFormatter.Units = [.useAll], countStyle: ByteCountFormatter.CountStyle = .file) -> String {
+        let bcf = ByteCountFormatter()
+        bcf.allowedUnits = units
+        bcf.countStyle = .file
+
+        return bcf.string(fromByteCount: Int64(count))
+    }
+    
+}
