@@ -7,8 +7,14 @@
 //
 
 import Foundation
+import RealmSwift
 
 struct Region {
     var name = ""
     var regions: [Region]?
+}
+
+class MapFile: Object {
+    @objc dynamic var name: String?
+    @objc dynamic var archive: Data?
 }

@@ -23,15 +23,17 @@ class CountriesTableViewController: UIViewController,
     @IBOutlet weak var freeSpace: UILabel!
         
     var regions: [Region] = []
-    //var documentsURL = URL(string: "")!
-    
+//    var documentsURL = URL(string: "http://download.osmand.net/download.php?standard=yes&file=Germany_berlin_europe_2.obf.zip")!
+
+    let realm = try! Realm()
+    var mapFile = Data()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         parseRegionsXML()
-        downloadMap()
-        
+        downloadMapToDisk()
 
     }
     
@@ -57,8 +59,8 @@ class CountriesTableViewController: UIViewController,
         cell.setup(country: country)
     }
     
-    func downloadMap() {
-//        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
+    func downloadMapToDisk() {
+        //        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
 //
 //        AF.download("https://httpbin.org/image/png", to: destination)
         AF.download("http://download.osmand.net/download.php?standard=yes&file=Germany_berlin_europe_2.obf.zip")
@@ -67,11 +69,27 @@ class CountriesTableViewController: UIViewController,
         }
         .responseData { response in
             if let data = response.value {
-                let image = UIImage(data: data)
+                var file = MapFile()
+                file.name = "regionName"
+                file.archive = data
+                
+                try! self.realm.write {
+                    self.realm.add(file)
+                    
+                }
+                
+                
+                let result = self.realm.objects(MapFile.self).filter("name = 'regionName'")
             }
         }
     }
     
+//    func moveFileFromDiskToRealm() {
+//        try! realm.write {
+//            realm.add(myDog)
+//        }
+//    }
+//
     func getMemoryInfo() {
         let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
         do {
