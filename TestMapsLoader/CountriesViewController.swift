@@ -11,8 +11,6 @@ import UIKit
 import SwiftyXMLParser
 import Alamofire
 
-//http://download.osmand.net/download.php?standard=yes&file=Denmark_europe_2.obf.zip
-
 class CountriesTableViewController: UIViewController,
                                     UITableViewDataSource,
                                     UITableViewDelegate,
@@ -28,13 +26,25 @@ class CountriesTableViewController: UIViewController,
     var downloadedFileUrl: URL?
     var relocatedFileUrl: URL?
 
+    override func viewWillAppear
+        (_ animated: Bool) {
+        
+//        UIApplication.shared.statusBarStyle = .lightContent
+    }
     
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
+//    }
+//
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        parseRegionsXML()
-        downloadMapToDisk()
+        //WTF?
+        navigationController?.navigationBar.barTintColor = UIColor(hex: "#ff8800")
 
+        parseRegionsXML()
+        downloadMap()
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -59,12 +69,18 @@ class CountriesTableViewController: UIViewController,
         cell.setup(country: country)
     }
     
-    func downloadMapToDisk() {
-        //        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
+    func downloadMap() {
 //        AF.download("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf")
 //        AF.download("http://download.osmand.net/download.php?standard=yes&file=Germany_berlin_europe_2.obf.zip")
 //        AF.download("https://httpbin.org/image/png") //, to: destination
-        AF.download("https://httpbin.org/image/png", to: <#T##DownloadRequest.Destination?##DownloadRequest.Destination?##(URL, HTTPURLResponse) -> (destinationURL: URL, options: DownloadRequest.Options)#>)
+        
+        let destination: DownloadRequest.Destination = { _, _ in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let fileURL = documentsURL.appendingPathComponent("image.png")
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        
+        AF.download("https://httpbin.org/image/png", to: destination)
         .downloadProgress { progress in
             print("Download Progress: \(progress.fractionCompleted)")
         }
@@ -74,27 +90,9 @@ class CountriesTableViewController: UIViewController,
                 file.name = "regionName"
                 file.archive = data
                 self.downloadedFileUrl = response.fileURL
-                
-                guard let url = response.fileURL else { return }
-                    let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                    let destinationURL = documentsPath.appendingPathComponent("image.png")
-                    // delete original copy
-                    try? FileManager.default.removeItem(at: destinationURL)
-                    // copy from temp to Document
-                    do {
-                        try FileManager.default.copyItem(at: response.fileURL!, to: destinationURL)
-                        self.relocatedFileUrl = destinationURL
-                    } catch let error {
-                        print("Copy Error: \(error.localizedDescription)")
-                    }
-                }
-                
-                print(" file moved to url: \(self.relocatedFileUrl)")
-                //TODO move data from tmp to Library
             }
+        }
     }
-    
-
     
     func getMemoryInfo() {
         let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
@@ -137,13 +135,6 @@ class CountriesTableViewController: UIViewController,
             }
         }
     }
-        
-//    func makeCoutryObject(region: XML.Accessor) -> [Region] {
-//        for index in region {
-//
-//        }
-//        return []
-//    }
 
     func fileToString(name: String, fileType: String) -> String {
         var xmlString = ""
@@ -153,9 +144,8 @@ class CountriesTableViewController: UIViewController,
             } catch {
                 // contents could not be loaded
             }
-        } else {
-            // example.txt not found!
         }
+        
         return xmlString
     }
 }
@@ -171,7 +161,6 @@ extension Data {
     }
     
 }
-
 
 extension CountriesTableViewController:  URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
@@ -192,12 +181,32 @@ extension CountriesTableViewController:  URLSessionDownloadDelegate {
     }
 }
 
+extension UIColor {
+    public convenience init?(hex: String) {
+        let r, g, b, a: CGFloat
 
+        if hex.hasPrefix("#") {
+            let start = hex.index(hex.startIndex, offsetBy: 1)
+            let hexColor = String(hex[start...])
 
-//    func moveFileFromDiskToRealm() {
-//        try! realm.write {
-//            realm.add(myDog)
-//        }
-//    }
-//
+            if hexColor.count == 8 {
+                let scanner = Scanner(string: hexColor)
+                var hexNumber: UInt64 = 0
+
+                if scanner.scanHexInt64(&hexNumber) {
+                    r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
+                    g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+                    b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+                    a = CGFloat(hexNumber & 0x000000ff) / 255
+
+                    self.init(red: r, green: g, blue: b, alpha: a)
+                    return
+                }
+            }
+        }
+
+        return nil
+    }
+}
+
     //                let result = self.realm.objects(MapFile.self).filter("name = 'regionName'")
