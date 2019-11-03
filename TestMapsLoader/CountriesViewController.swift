@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import SwiftyXMLParser
-import RealmSwift
 import Alamofire
 
 //http://download.osmand.net/download.php?standard=yes&file=Denmark_europe_2.obf.zip
@@ -25,8 +24,9 @@ class CountriesTableViewController: UIViewController,
     var regions: [Region] = []
 //    var documentsURL = URL(string: "http://download.osmand.net/download.php?standard=yes&file=Germany_berlin_europe_2.obf.zip")!
 
-    let realm = try! Realm()
     var mapFile = Data()
+    var downloadedFileUrl: URL?
+    var relocatedFileUrl: URL?
 
     
     override func viewDidLoad() {
@@ -61,8 +61,10 @@ class CountriesTableViewController: UIViewController,
     
     func downloadMapToDisk() {
         //        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
-//
-//        AF.download("https://httpbin.org/image/png", to: destination)
+//        AF.download("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf")
+//        AF.download("https://httpbin.org/image/png") //, to: destination
+        
+
         AF.download("http://download.osmand.net/download.php?standard=yes&file=Germany_berlin_europe_2.obf.zip")
         .downloadProgress { progress in
             print("Download Progress: \(progress.fractionCompleted)")
@@ -72,24 +74,29 @@ class CountriesTableViewController: UIViewController,
                 var file = MapFile()
                 file.name = "regionName"
                 file.archive = data
+                self.downloadedFileUrl = response.fileURL
                 
-                try! self.realm.write {
-                    self.realm.add(file)
-                    
+                guard let url = response.fileURL else { return }
+                    let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                    let destinationURL = documentsPath.appendingPathComponent(url.lastPathComponent)
+                    // delete original copy
+                    try? FileManager.default.removeItem(at: destinationURL)
+                    // copy from temp to Document
+                    do {
+                        try FileManager.default.copyItem(at: response.fileURL!, to: destinationURL)
+                        self.relocatedFileUrl = destinationURL
+                    } catch let error {
+                        print("Copy Error: \(error.localizedDescription)")
+                    }
                 }
                 
-                
-                let result = self.realm.objects(MapFile.self).filter("name = 'regionName'")
+                print(" file moved to url: \(self.relocatedFileUrl)")
+                //TODO move data from tmp to Library
             }
-        }
     }
     
-//    func moveFileFromDiskToRealm() {
-//        try! realm.write {
-//            realm.add(myDog)
-//        }
-//    }
-//
+
+    
     func getMemoryInfo() {
         let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
         do {
@@ -165,3 +172,33 @@ extension Data {
     }
     
 }
+
+
+extension CountriesTableViewController:  URLSessionDownloadDelegate {
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        print("downloadLocation:", location)
+        // create destination URL with the original pdf name
+        guard let url = downloadTask.originalRequest?.url else { return }
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let destinationURL = documentsPath.appendingPathComponent(url.lastPathComponent)
+        // delete original copy
+        try? FileManager.default.removeItem(at: destinationURL)
+        // copy from temp to Document
+        do {
+            try FileManager.default.copyItem(at: location, to: destinationURL)
+            self.downloadedFileUrl = destinationURL
+        } catch let error {
+            print("Copy Error: \(error.localizedDescription)")
+        }
+    }
+}
+
+
+
+//    func moveFileFromDiskToRealm() {
+//        try! realm.write {
+//            realm.add(myDog)
+//        }
+//    }
+//
+    //                let result = self.realm.objects(MapFile.self).filter("name = 'regionName'")
