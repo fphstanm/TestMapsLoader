@@ -62,10 +62,9 @@ class CountriesTableViewController: UIViewController,
     func downloadMapToDisk() {
         //        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
 //        AF.download("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf")
+//        AF.download("http://download.osmand.net/download.php?standard=yes&file=Germany_berlin_europe_2.obf.zip")
 //        AF.download("https://httpbin.org/image/png") //, to: destination
-        
-
-        AF.download("http://download.osmand.net/download.php?standard=yes&file=Germany_berlin_europe_2.obf.zip")
+        AF.download("https://httpbin.org/image/png", to: <#T##DownloadRequest.Destination?##DownloadRequest.Destination?##(URL, HTTPURLResponse) -> (destinationURL: URL, options: DownloadRequest.Options)#>)
         .downloadProgress { progress in
             print("Download Progress: \(progress.fractionCompleted)")
         }
@@ -78,7 +77,7 @@ class CountriesTableViewController: UIViewController,
                 
                 guard let url = response.fileURL else { return }
                     let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                    let destinationURL = documentsPath.appendingPathComponent(url.lastPathComponent)
+                    let destinationURL = documentsPath.appendingPathComponent("image.png")
                     // delete original copy
                     try? FileManager.default.removeItem(at: destinationURL)
                     // copy from temp to Document
