@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		51706B89F874AAB3B48408C6 /* Pods_TestMapsLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6319B517C83C1397E1AC0DB9 /* Pods_TestMapsLoader.framework */; };
+		EF6E400F2370608B0022C30C /* CountryRegionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6E400E2370608B0022C30C /* CountryRegionsViewController.swift */; };
 		EFF3B7892368857000031570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF3B7882368857000031570 /* AppDelegate.swift */; };
 		EFF3B78B2368857000031570 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF3B78A2368857000031570 /* SceneDelegate.swift */; };
 		EFF3B7902368857000031570 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFF3B78E2368857000031570 /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 		6319B517C83C1397E1AC0DB9 /* Pods_TestMapsLoader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestMapsLoader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A53FC039631E4588B7545FFF /* Pods-TestMapsLoader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestMapsLoader.release.xcconfig"; path = "Target Support Files/Pods-TestMapsLoader/Pods-TestMapsLoader.release.xcconfig"; sourceTree = "<group>"; };
 		ACCCAD6357D93F639B166C13 /* Pods-TestMapsLoader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestMapsLoader.debug.xcconfig"; path = "Target Support Files/Pods-TestMapsLoader/Pods-TestMapsLoader.debug.xcconfig"; sourceTree = "<group>"; };
+		EF6E400E2370608B0022C30C /* CountryRegionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryRegionsViewController.swift; sourceTree = "<group>"; };
 		EFF3B7852368857000031570 /* TestMapsLoader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestMapsLoader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF3B7882368857000031570 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFF3B78A2368857000031570 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +71,23 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		EF6E4010237060DB0022C30C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				EF6E400E2370608B0022C30C /* CountryRegionsViewController.swift */,
+				EFF3B79F236893C200031570 /* CountriesViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		EF6E4011237060F00022C30C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EFFCA5BD236981E2000A7315 /* CountriesModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		EFF3B77C2368857000031570 = {
 			isa = PBXGroup;
 			children = (
@@ -92,8 +111,8 @@
 			children = (
 				EFF3B7882368857000031570 /* AppDelegate.swift */,
 				EFF3B78A2368857000031570 /* SceneDelegate.swift */,
-				EFF3B79F236893C200031570 /* CountriesViewController.swift */,
-				EFFCA5BD236981E2000A7315 /* CountriesModel.swift */,
+				EF6E4010237060DB0022C30C /* Controller */,
+				EF6E4011237060F00022C30C /* Model */,
 				EFF3B7A323689E9000031570 /* CountryTableViewCell.swift */,
 				EFF3B7A52368B3F300031570 /* CountriesPresenter.swift */,
 				EFF3B78E2368857000031570 /* Main.storyboard */,
@@ -223,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFF3B7892368857000031570 /* AppDelegate.swift in Sources */,
+				EF6E400F2370608B0022C30C /* CountryRegionsViewController.swift in Sources */,
 				EFF3B78B2368857000031570 /* SceneDelegate.swift in Sources */,
 				EFFCA5BE236981E2000A7315 /* CountriesModel.swift in Sources */,
 				EFF3B7A0236893C200031570 /* CountriesViewController.swift in Sources */,

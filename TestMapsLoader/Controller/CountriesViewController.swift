@@ -47,24 +47,6 @@ class CountriesTableViewController: UIViewController,
         downloadMap()
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let countriesQuantity = regions[0].regions?.count else { return 0 }
-        
-        return countriesQuantity
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = countriesTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! countryTableViewCell
-        cell.setup(country: regions[0].regions![indexPath.row].name) //TODO force unwrap
-        
-        return cell
-    }
-
-    
     func setupCountryCell(cell: countryTableViewCell, country: String) {
         cell.setup(country: country)
     }
@@ -148,6 +130,41 @@ class CountriesTableViewController: UIViewController,
         
         return xmlString
     }
+}
+
+extension CountriesTableViewController {
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let countriesQuantity = regions[0].regions?.count else { return 0 }
+        
+        return countriesQuantity
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = countriesTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! countryTableViewCell
+        cell.setup(country: regions[0].regions![indexPath.row].name) //TODO force unwrap
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let imageDetailController = self.storyboard!.instantiateViewController(withIdentifier: "ImageDetail") as! ImageDetailsViewController
+//        let url = URL(string: "http://gallery.dev.webant.ru/media/" + (self.mainDataArray[indexPath.row].image?.contentUrl)!)
+//        
+//        imageDetailController.imageUrl = url
+//        imageDetailController.imageName = mainDataArray[indexPath.row].name!
+//        imageDetailController.imageDescription = mainDataArray[indexPath.row].description!
+//        
+//        self.navigationController!.pushViewController(imageDetailController, animated: true)
+        let countryRegionsViewController = self.storyboard!.instantiateViewController(withIdentifier: "CountryRegions") as! CountryRegionsViewController
+        
+        self.navigationController!.pushViewController(countryRegionsViewController, animated: true)
+    }
+    
 }
 
 
