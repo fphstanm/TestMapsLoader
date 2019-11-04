@@ -29,7 +29,7 @@
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="618" id="E19-vJ-3H2"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="76" id="d9Y-7h-JHj" customClass="countryTableViewCell" customModule="TestMapsLoader" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="76" id="d9Y-7h-JHj" customClass="CountryTableViewCell" customModule="TestMapsLoader" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="76"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d9Y-7h-JHj" id="sUN-8F-Ycj">
@@ -92,10 +92,10 @@
             </objects>
             <point key="canvasLocation" x="982.60869565217399" y="108.48214285714285"/>
         </scene>
-        <!--Country Regions View Controller-->
+        <!--Regions View Controller-->
         <scene sceneID="l7A-v6-gii">
             <objects>
-                <viewController storyboardIdentifier="CountryRegions" id="QbD-Zo-vWy" customClass="CountryRegionsViewController" customModule="TestMapsLoader" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Regions" id="QbD-Zo-vWy" customClass="RegionsViewController" customModule="TestMapsLoader" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Bt6-u7-IFl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,7 +110,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="Cell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="76" id="C3b-Vv-EVH" customClass="countryTableViewCell" customModule="TestMapsLoader" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="Cell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="76" id="C3b-Vv-EVH" customClass="RegionTableViewCell" customModule="TestMapsLoader" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="76"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="C3b-Vv-EVH" id="1q9-VT-EY7">
@@ -131,11 +131,15 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="countryName" destination="4Un-CI-AJa" id="dGE-g0-WSV"/>
-                                            <outlet property="mapIcon" destination="AgS-b7-9Hn" id="KE5-Km-lFs"/>
+                                            <outlet property="mapIcon" destination="AgS-b7-9Hn" id="1ZV-i1-AKh"/>
+                                            <outlet property="regionName" destination="4Un-CI-AJa" id="nXp-dy-c5E"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="QbD-Zo-vWy" id="gy1-Yu-lub"/>
+                                    <outlet property="delegate" destination="QbD-Zo-vWy" id="Vmh-VG-tIC"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -143,30 +147,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="Wlx-cw-9UD"/>
                     <connections>
-                        <outlet property="countryRegionsTableView" destination="QVX-hP-fr1" id="qbG-7c-n9N"/>
+                        <outlet property="regionsTableView" destination="QVX-hP-fr1" id="1fg-p8-mSm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OWi-yp-lgK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2721.739130434783" y="107.8125"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="X54-Nd-mry">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WdR-pD-MuB" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yPe-sX-qW0">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="QbD-Zo-vWy" kind="relationship" relationship="rootViewController" id="Tog-ik-xjK"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bf0-aL-hHj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1844.9275362318842" y="107.8125"/>
+            <point key="canvasLocation" x="2272" y="108"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="j6f-Vu-xBY">

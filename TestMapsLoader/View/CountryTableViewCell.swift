@@ -9,9 +9,8 @@
 import Foundation
 import UIKit
 
-class countryTableViewCell: UITableViewCell {
+class CountryTableViewCell: UITableViewCell {
     
-    //FIXME May cause crash becouse it's connected to different VC
     @IBOutlet weak var countryName: UILabel!
     @IBOutlet weak var mapIcon: UIImageView!
     

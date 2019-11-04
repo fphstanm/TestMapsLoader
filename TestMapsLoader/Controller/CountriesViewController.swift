@@ -24,27 +24,38 @@ class CountriesTableViewController: UIViewController,
 
     override func viewWillAppear
         (_ animated: Bool) {
-        
-//        UIApplication.shared.statusBarStyle = .lightContent
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        setTopBarsStyle()
+
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
 //        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
-//    }
+        navigationController?.setNavigationBarHidden(false, animated: true)
+
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //WTF?
         navigationController?.navigationBar.barTintColor = UIColor(hex: "#ff8800")
-
+        
         presenter.parseRegionsXML()
         presenter.downloadMap()
     }
     
-    func setupCountryCell(cell: countryTableViewCell, country: String) {
+    func setupCountryCell(cell: CountryTableViewCell, country: String) {
         cell.setup(country: country)
+    }
+    
+    func uicolorFromHex(rgbValue:UInt32)->UIColor{
+        let red = CGFloat((rgbValue & 0xFF0000) >> 16)/256.0
+        let green = CGFloat((rgbValue & 0xFF00) >> 8)/256.0
+        let blue = CGFloat(rgbValue & 0xFF)/256.0
+
+        return UIColor(red:red, green:green, blue:blue, alpha:1.0)
     }
 }
 
@@ -62,7 +73,7 @@ extension CountriesTableViewController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = countriesTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! countryTableViewCell
+        let cell = countriesTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CountryTableViewCell
         cell.setup(country: presenter.regions[0].regions![indexPath.row].name) //TODO force unwrap
         
         return cell
@@ -73,12 +84,52 @@ extension CountriesTableViewController {
 //        let url = URL(string: "http://gallery.dev.webant.ru/media/" + (self.mainDataArray[indexPath.row].image?.contentUrl)!)
 //        
 //        imageDetailController.imageUrl = url
-//        imageDetailController.imageName = mainDataArray[indexPath.row].name!
+//        imageDetailController.imageName = mai´nDataArray[indexPath.row].name!
 //        imageDetailController.imageDescription = mainDataArray[indexPath.row].description!
-//        
-        let countryRegionsViewController = self.storyboard!.instantiateViewController(withIdentifier: "CountryRegions") as! CountryRegionsViewController
-        
-        self.navigationController!.pushViewController(countryRegionsViewController, animated: true)
+
+        if !(presenter.regions[0].regions![indexPath.row].regions!.isEmpty) {
+            let regionsViewController = storyboard!.instantiateViewController(withIdentifier: "Regions") as! RegionsViewController
+            regionsViewController.regions = presenter.regions[0].regions![indexPath.row].regions!
+            print("regions: ", presenter.regions[0].regions![indexPath.row].regions!)
+            self.navigationController!.pushViewController(regionsViewController, animated: true)
+        } else {
+            print("no regions in this country")
+        }
+    }
+    
+    //TODO: Move it to Utility.swift
+    func setTopBarsStyle() {
+        if #available(iOS 13.0, *) {
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithOpaqueBackground()
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.backgroundColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
+            navigationController?.navigationBar.standardAppearance = navBarAppearance
+            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        }
+        if #available(iOS 13.0, *) {
+            let app = UIApplication.shared
+            let statusBarHeight: CGFloat = app.statusBarFrame.size.height
+
+            let statusbarView = UIView()
+            statusbarView.backgroundColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
+            view.addSubview(statusbarView)
+
+            statusbarView.translatesAutoresizingMaskIntoConstraints = false
+            statusbarView.heightAnchor
+                .constraint(equalToConstant: statusBarHeight).isActive = true
+            statusbarView.widthAnchor
+                .constraint(equalTo: view.widthAnchor, multiplier: 1.0).isActive = true
+            statusbarView.topAnchor
+                .constraint(equalTo: view.topAnchor).isActive = true
+            statusbarView.centerXAnchor
+                .constraint(equalTo: view.centerXAnchor).isActive = true
+
+        } else {
+            let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
+            statusBar?.backgroundColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
+        }
     }
     
 }

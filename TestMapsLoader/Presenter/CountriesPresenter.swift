@@ -73,26 +73,30 @@ class CountriesPresenter {
         let regionsList = xml.regions_list[0].region
         
         //TODO make it easier
-        regionsList.forEach { continentInfo in
-            let continentName = continentInfo.first.attributes["name"]
-            let continent = Region(name: continentName!, regions: [])
-            regions.append(continent)
+        regionsList.forEach { continent in
+            let continentName = continent.first.attributes["name"]
+            let continentInfo = Region(name: continentName!, regions: [])
+            regions.append(continentInfo)
             let continentIndex = regions.count - 1
+            print("continent index", continentIndex)
             
-            continentInfo.region.forEach { countryInfo in
-                let countryName = countryInfo.first.attributes["name"]
-                let country = Region(name: countryName!, regions: []) //TODO mb nil?
-                regions[continentIndex].regions?.append(country)
-                let countryIndex = regions.count - 1
+            continent.region.forEach { country in
+                let countryName = country.first.attributes["name"]
+                let countryInfo = Region(name: countryName!, regions: [])
+                regions[continentIndex].regions?.append(countryInfo)
+                let countryIndex = regions[continentIndex].regions!.count - 1
                 
-                countryInfo.region.forEach { region in
+                country.region.forEach { region in
                     let regionName = region.first.attributes["name"]
                     let area = Region(name: regionName!, regions: nil) //TODO force unwrap
                     regions[continentIndex].regions?[countryIndex].regions?.append(area)
-//                    print(countryName!, " ", regionName!)
                 }
             }
         }
+        print(regions.count)
+//        for indexContinent in regionsList {
+//
+//        }
     }
     
     func fileToString(name: String, fileType: String) -> String {
