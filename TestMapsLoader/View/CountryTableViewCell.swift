@@ -11,17 +11,12 @@ import UIKit
 
 class countryTableViewCell: UITableViewCell {
     
+    //FIXME May cause crash becouse it's connected to different VC
     @IBOutlet weak var countryName: UILabel!
+    @IBOutlet weak var mapIcon: UIImageView!
+    
     
     func setup(country: String) {
-        //TODO if nil ...
         self.countryName.text = country
     }
-//    func setup(tag: String) {
-//        guard tag != " " else {
-//            tagLabel.text = " "
-//            return
-//        }
-//        tagLabel.text = "#\(tag)"
-//    }
 }

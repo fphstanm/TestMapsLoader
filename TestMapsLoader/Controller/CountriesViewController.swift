@@ -18,9 +18,8 @@ class CountriesTableViewController: UIViewController,
     
     @IBOutlet weak var countriesTableView: UITableView!
     @IBOutlet weak var freeSpace: UILabel!
-        
  
-    lazy var presenter = CountriesPresenterImp(view: self)
+    lazy var presenter = CountriesPresenter(view: self)
 
 
     override func viewWillAppear
@@ -33,7 +32,7 @@ class CountriesTableViewController: UIViewController,
 //        super.viewWillDisappear(animated)
 //        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
 //    }
-//
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,9 +46,8 @@ class CountriesTableViewController: UIViewController,
     func setupCountryCell(cell: countryTableViewCell, country: String) {
         cell.setup(country: country)
     }
-
-
 }
+
 
 extension CountriesTableViewController {
     

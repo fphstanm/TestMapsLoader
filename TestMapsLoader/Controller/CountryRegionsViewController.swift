@@ -13,7 +13,6 @@ class CountryRegionsViewController: UIViewController,
                                     UITableViewDataSource,
                                     UITableViewDelegate {
     
-    
     @IBOutlet weak var countryRegionsTableView: UITableView!
     
     
@@ -28,8 +27,4 @@ class CountryRegionsViewController: UIViewController,
 
         return cell
     }
-    
-
-
-
 }

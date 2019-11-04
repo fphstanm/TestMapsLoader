@@ -13,24 +13,33 @@ import Foundation
 import SwiftyXMLParser
 import Alamofire
 
-protocol CountriesPresenter {
-    
-//    func setupCountryCell(cell: countryTableViewCell, country: String)
-}
 
 
-class CountriesPresenterImp: CountriesPresenter {
+class CountriesPresenter {
     
     let view: CountriesTableViewController
     
     var downloadedFileUrl: URL?
     var regions: [Region] = []
     var mapFile = Data()
-    var relocatedFileUrl: URL?
 
     
     init(view: CountriesTableViewController) {
         self.view = view
+    }
+    
+    func getMemoryInfo() {
+        let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
+        do {
+            let values = try fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
+            if let capacity = values.volumeAvailableCapacityForImportantUsage {
+                print("Available capacity for important usage: \(capacity)")
+            } else {
+                print("Capacity is unavailable")
+            }
+        } catch {
+            print("Error retrieving capacity: \(error.localizedDescription)")
+        }
     }
     
     func downloadMap() {
@@ -55,20 +64,6 @@ class CountriesPresenterImp: CountriesPresenter {
                 file.archive = data
                 self.downloadedFileUrl = response.fileURL
             }
-        }
-    }
-    
-    func getMemoryInfo() {
-        let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
-        do {
-            let values = try fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
-            if let capacity = values.volumeAvailableCapacityForImportantUsage {
-                print("Available capacity for important usage: \(capacity)")
-            } else {
-                print("Capacity is unavailable")
-            }
-        } catch {
-            print("Error retrieving capacity: \(error.localizedDescription)")
         }
     }
     
@@ -114,8 +109,6 @@ class CountriesPresenterImp: CountriesPresenter {
     }
 }
 
- 
- 
 
 extension Data {
     func sizeString(units: ByteCountFormatter.Units = [.useAll], countStyle: ByteCountFormatter.CountStyle = .file) -> String {

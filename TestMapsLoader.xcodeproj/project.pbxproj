@@ -96,6 +96,14 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		EF6E401323709CD50022C30C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EFF3B7A323689E9000031570 /* CountryTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		EFF3B77C2368857000031570 = {
 			isa = PBXGroup;
 			children = (
@@ -117,17 +125,17 @@
 		EFF3B7872368857000031570 /* TestMapsLoader */ = {
 			isa = PBXGroup;
 			children = (
-				EFF3B7882368857000031570 /* AppDelegate.swift */,
-				EFF3B78A2368857000031570 /* SceneDelegate.swift */,
 				EF6E4010237060DB0022C30C /* Controller */,
 				EF6E4011237060F00022C30C /* Model */,
 				EF6E401223706F0E0022C30C /* Presenter */,
+				EF6E401323709CD50022C30C /* View */,
+				EFF3B7882368857000031570 /* AppDelegate.swift */,
+				EFF3B78A2368857000031570 /* SceneDelegate.swift */,
 				EFF3B78E2368857000031570 /* Main.storyboard */,
-				EFF3B7A323689E9000031570 /* CountryTableViewCell.swift */,
-				EFF3B7A123689AC900031570 /* CountriesInfo.xml */,
 				EFF3B7942368857400031570 /* Assets.xcassets */,
 				EFF3B7962368857400031570 /* LaunchScreen.storyboard */,
 				EFF3B7992368857400031570 /* Info.plist */,
+				EFF3B7A123689AC900031570 /* CountriesInfo.xml */,
 				EFF3B7912368857000031570 /* TestMapsLoader.xcdatamodeld */,
 			);
 			path = TestMapsLoader;
