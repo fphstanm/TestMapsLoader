@@ -6,14 +6,9 @@
 //  Copyright © 2019 Philip. All rights reserved.
 //
 
-
-
-
 import Foundation
 import SwiftyXMLParser
 import Alamofire
-
-
 
 class CountriesPresenter {
     
@@ -21,7 +16,6 @@ class CountriesPresenter {
     
     var downloadedFileUrl: URL?
     var regions: [Region] = []
-    var mapFile = Data()
 
     
     init(view: CountriesTableViewController) {
@@ -59,9 +53,6 @@ class CountriesPresenter {
         }
         .responseData { response in
             if let data = response.value {
-                var file = MapFile()
-                file.name = "regionName"
-                file.archive = data
                 self.downloadedFileUrl = response.fileURL
             }
         }
@@ -94,9 +85,6 @@ class CountriesPresenter {
             }
         }
         print(regions.count)
-//        for indexContinent in regionsList {
-//
-//        }
     }
     
     func fileToString(name: String, fileType: String) -> String {

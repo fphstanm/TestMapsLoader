@@ -1,22 +1,17 @@
 PODS:
   - Alamofire (5.0.0-rc.3)
-  - Realm (3.20.0):
-    - Realm/Headers (= 3.20.0)
-  - Realm/Headers (3.20.0)
-  - RealmSwift (3.20.0):
-    - Realm (= 3.20.0)
+  - LinearProgressBar (1.0.1)
   - SwiftyXMLParser (5.1.0)
 
 DEPENDENCIES:
   - Alamofire (~> 5.0.0-rc.3)
-  - RealmSwift
+  - LinearProgressBar
   - SwiftyXMLParser (from `https://github.com/yahoojapan/SwiftyXMLParser.git`)
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - Realm
-    - RealmSwift
+    - LinearProgressBar
 
 EXTERNAL SOURCES:
   SwiftyXMLParser:
@@ -29,10 +24,9 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: ca8c0de6906873be89d6deec5c8de279e00bf872
-  Realm: 8b2ca5bc6479a91f379b6b42b5922e396cd5ba5a
-  RealmSwift: 1949ef26a279e1845bd51d591b9103adfcd121df
+  LinearProgressBar: f6a74dbabed229dbb1a7978089e2e4317a3a0ee0
   SwiftyXMLParser: 8271497e0a37b5c04b0b167c77b4896e36175a21
 
-PODFILE CHECKSUM: 9d919359f09c68f8dfc542148b90ca9a7f561448
+PODFILE CHECKSUM: eb4e975ca504c52563550b0a7aa25019058e4750
 
 COCOAPODS: 1.8.4
