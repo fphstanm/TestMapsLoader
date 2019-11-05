@@ -22,18 +22,27 @@ class CountriesPresenter {
         self.view = view
     }
     
-    func getMemoryInfo() {
+    func getMemoryInfo() -> [String] {
         let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
+        var totalAndAvailableMemory: [String] = []
         do {
-            let values = try fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
-            if let capacity = values.volumeAvailableCapacityForImportantUsage {
-                print("Available capacity for important usage: \(capacity)")
-            } else {
-                print("Capacity is unavailable")
+            let values = try fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey, .volumeTotalCapacityKey])
+
+            if let capacity = values.volumeAvailableCapacityForImportantUsage, let total = values.volumeTotalCapacity {
+                var capacityStr = (String(capacity).dropLast(7))
+                capacityStr.insert(".", at: capacityStr.index(capacityStr.endIndex, offsetBy: -2))
+                var totalStr = String(total).dropLast(7)
+                totalStr.insert(".", at: totalStr.index(totalStr.endIndex, offsetBy: -2))
+                
+                print(" - - - ", capacityStr, " ", totalStr)
+                totalAndAvailableMemory.append(contentsOf: [String(capacityStr),String(totalStr)])
             }
+
         } catch {
             print("Error retrieving capacity: \(error.localizedDescription)")
         }
+
+        return totalAndAvailableMemory
     }
     
     func downloadMap() {
@@ -52,9 +61,7 @@ class CountriesPresenter {
             print("Download Progress: \(progress.fractionCompleted)")
         }
         .responseData { response in
-            if let data = response.value {
-                self.downloadedFileUrl = response.fileURL
-            }
+            self.downloadedFileUrl = response.fileURL
         }
     }
     

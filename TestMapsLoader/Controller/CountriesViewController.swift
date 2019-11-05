@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SwiftyXMLParser
 import Alamofire
+import LinearProgressBar
 
 class CountriesTableViewController: UIViewController,
                                     UITableViewDataSource,
@@ -17,11 +18,12 @@ class CountriesTableViewController: UIViewController,
                                     XMLParserDelegate {
     
     @IBOutlet weak var countriesTableView: UITableView!
-    @IBOutlet weak var freeSpace: UILabel!
- 
+    @IBOutlet weak var progressBarMemory: LinearProgressBar!
+    @IBOutlet weak var freeMemoryLabel: UILabel!
+    
     lazy var presenter = CountriesPresenter(view: self)
 
-
+    
     override func viewWillAppear
         (_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -33,7 +35,6 @@ class CountriesTableViewController: UIViewController,
         super.viewWillDisappear(animated)
 //        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         navigationController?.setNavigationBarHidden(false, animated: true)
-
     }
 
     override func viewDidLoad() {
@@ -41,6 +42,10 @@ class CountriesTableViewController: UIViewController,
         
         //WTF?
         navigationController?.navigationBar.barTintColor = UIColor(hex: "#ff8800")
+        print(" - - - - -  - - -")
+        let diskSpace = presenter.getMemoryInfo()
+        freeMemoryLabel.text = "Free " + diskSpace[0] + " Gb"
+        progressBarMemory.progressValue = CGFloat(100 - (Float(diskSpace[0])! / Float(diskSpace[1])! * 100))
         
         presenter.parseRegionsXML()
         presenter.downloadMap()
@@ -54,7 +59,7 @@ class CountriesTableViewController: UIViewController,
         let red = CGFloat((rgbValue & 0xFF0000) >> 16)/256.0
         let green = CGFloat((rgbValue & 0xFF00) >> 8)/256.0
         let blue = CGFloat(rgbValue & 0xFF)/256.0
-
+        
         return UIColor(red:red, green:green, blue:blue, alpha:1.0)
     }
 }

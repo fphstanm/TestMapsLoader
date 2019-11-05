@@ -7,16 +7,96 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4DB14070-0238-4912-B1C7-0D138FEDBE93"
+            uuid = "3D2076CD-FD5F-4D67-9E94-A1D296E8FEF4"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TestMapsLoader/Controller/CountriesViewController.swift"
+            filePath = "TestMapsLoader/Presenter/CountriesPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "tableView(_:didSelectRowAt:)"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "getMemoryInfo()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "47094018-BACE-4807-A186-0A9031BFC4AF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TestMapsLoader/Presenter/CountriesPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "getMemoryInfo()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F3A14B5F-6160-461D-820E-78DBC3C28E8E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TestMapsLoader/Presenter/CountriesPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "getMemoryInfo()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F3A14B5F-6160-461D-820E-78DBC3C28E8E - b9384adb16cfc575"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TestMapsLoader.CountriesPresenter.getMemoryInfo() -&gt; Swift.Array&lt;Swift.Int&gt;"
+                  moduleName = "TestMapsLoader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/a1/Documents/XCode/TestMapsLoader/TestMapsLoader/Presenter/CountriesPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "1202">
+               </Location>
+               <Location
+                  uuid = "F3A14B5F-6160-461D-820E-78DBC3C28E8E - b9384adb16cfc575"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TestMapsLoader.CountriesPresenter.getMemoryInfo() -&gt; Swift.Array&lt;Swift.Int&gt;"
+                  moduleName = "TestMapsLoader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/a1/Documents/XCode/TestMapsLoader/TestMapsLoader/Presenter/CountriesPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "1224">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0A86FC56-6E2D-4AA7-A174-690338F5BAB0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TestMapsLoader/Presenter/CountriesPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "getMemoryInfo()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import LinearProgressBar
 
 class CountryTableViewCell: UITableViewCell {
     
@@ -17,12 +18,12 @@ class CountryTableViewCell: UITableViewCell {
     @IBOutlet weak var mapLoadStatusView: UIView!
     @IBOutlet weak var mapLoadStatusImage: UIImageView!
     
+    @IBOutlet weak var progressBar: LinearProgressBar!
     
     
     func setup(country: String) {
         self.countryName.text = country
-        
-        var loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeLoadBtnColor))
+        let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeLoadBtnColor))
         loadRecognizer.delegate = self
         self.mapLoadStatusView.addGestureRecognizer(loadRecognizer)
         self.mapLoadStatusView.isUserInteractionEnabled = true
@@ -30,5 +31,9 @@ class CountryTableViewCell: UITableViewCell {
     
     @objc func changeLoadBtnColor() {
         self.mapLoadStatusImage.tintColor = UIColor.green
+    }
+    
+    func changeLoadingProgress(_ percent: Int) {
+        progressBar.progressValue = CGFloat(percent)
     }
 }
