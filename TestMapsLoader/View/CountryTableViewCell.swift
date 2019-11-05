@@ -22,7 +22,8 @@ class CountryTableViewCell: UITableViewCell {
     
     
     func setup(country: String) {
-        self.countryName.text = country
+//        let countryUp = String((country.prefix(1).capitalized).dropFirst())
+        self.countryName.text = country.capitalizingFirstLetter()
         let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeLoadBtnColor))
         loadRecognizer.delegate = self
         self.mapLoadStatusView.addGestureRecognizer(loadRecognizer)
@@ -35,5 +36,15 @@ class CountryTableViewCell: UITableViewCell {
     
     func changeLoadingProgress(_ percent: Int) {
         progressBar.progressValue = CGFloat(percent)
+    }
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
     }
 }

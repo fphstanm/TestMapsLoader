@@ -16,6 +16,6 @@ class RegionTableViewCell: UITableViewCell {
     
     
     func setup(region: String) {
-        self.regionName.text = region
+        self.regionName.text = region.capitalizingFirstLetter()
     }
 }
