@@ -31,14 +31,24 @@ class RegionTableViewCell: UITableViewCell {
         let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedLoadMapView))
         loadRecognizer.delegate = self
         self.loadMapView.addGestureRecognizer(loadRecognizer)
-        self.loadMapView.isUserInteractionEnabled = true    }
-    
-    func changeLoadBtnColor() {
-        self.loadMapStatus.tintColor = UIColor.green
+        self.loadMapView.isUserInteractionEnabled = true
     }
     
     @objc func tappedLoadMapView() {
-        self.changeLoadBtnColor()
+        self.changeLoadBtnColor(isLoaded: false)
+        self.loadMapView.isUserInteractionEnabled = false
         delegate?.didPressButtonForMap(self.cellIndex!)
     }
+    
+    func changeLoadBtnColor(isLoaded: Bool) {
+         if isLoaded {
+             self.loadMapStatus.tintColor = UIColor.green
+         } else {
+             self.loadMapStatus.tintColor = #colorLiteral(red: 0.7960784314, green: 0.7803921569, blue: 0.8196078431, alpha: 1)
+         }
+     }
+    
+
+    
+
 }

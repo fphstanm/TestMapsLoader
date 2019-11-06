@@ -26,9 +26,32 @@ class CountryTableViewCell: UITableViewCell {
     var cellIndex: Int?
     
     
-    func setup(country: String, cellIndex: Int) {
+    func setup(country: String, cellIndex: Int, countainRegions: Bool) {
         self.cellIndex = cellIndex
         self.countryName.text = country.capitalizingFirstLetter()
+        
+        if countainRegions {
+            setForwardImage()
+        } else {
+            setLoadButton()
+        }
+    }
+    
+    @objc func tappedLoadMapView() {
+        self.changeLoadBtnColor(isLoaded: false)
+        self.loadMapView.isUserInteractionEnabled = false
+        delegate?.didPressButtonForMap(self.cellIndex!)
+    }
+    
+    func changeLoadBtnColor(isLoaded: Bool) {
+        if isLoaded {
+            self.loadMapStatus.tintColor = UIColor.green
+        } else {
+            self.loadMapStatus.tintColor = #colorLiteral(red: 0.7960784314, green: 0.7803921569, blue: 0.8196078431, alpha: 1)
+        }
+    }
+    
+    func setLoadButton() {
         let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedLoadMapView))
         loadRecognizer.delegate = self
         
@@ -36,17 +59,7 @@ class CountryTableViewCell: UITableViewCell {
         self.loadMapView.isUserInteractionEnabled = true
     }
     
-    func changeLoadBtnColor() {
-        self.loadMapStatus.tintColor = UIColor.green
-    }
-    
-    @objc func tappedLoadMapView() {
-        self.changeLoadBtnColor()
-        delegate?.didPressButtonForMap(self.cellIndex!)
-        
+    func setForwardImage() {
+        self.loadMapStatus.image = UIImage(named: "ic_custom_forward")
     }
 }
-
-//        let countryUp = String((country.prefix(1).capitalized).dropFirst())
-
-

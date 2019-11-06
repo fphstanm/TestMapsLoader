@@ -37,10 +37,6 @@ class RegionsViewController: UIViewController,
         return cell
     }
 
-//    func setupRegionCell(cell: RegionTableViewCell, region: String) {
-//        cell.setup(region: region)
-//    }
-
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }

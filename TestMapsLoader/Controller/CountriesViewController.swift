@@ -88,7 +88,8 @@ extension CountriesTableViewController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = countriesTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CountryTableViewCell
-        cell.setup(country: presenter.regions[0].regions![indexPath.row].name, cellIndex: indexPath.row) //TODO force unwrap
+        let containRegions: Bool = !(presenter.regions[0].regions![indexPath.row].regions!.isEmpty)
+        cell.setup(country: presenter.regions[0].regions![indexPath.row].name, cellIndex: indexPath.row, countainRegions: containRegions) //TODO force unwrap
         cell.delegate = self
         
         return cell

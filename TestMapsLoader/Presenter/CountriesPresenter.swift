@@ -62,19 +62,9 @@ class CountriesPresenter {
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
         
-        var progressInterval: Double = 0.001
         AF.download(serverStartUrl + fileName, to: destination)
         .downloadProgress { progress in
-            if progressInterval < progress.fractionCompleted {
-                var progressStr = String(progress.fractionCompleted)
-                progressStr = String((progressStr.dropFirst()).dropFirst())
-                let index = progressStr.index(progressStr.startIndex, offsetBy: 1)
-                print("Dowload Progress:", progressStr[..<index], "0 %") //FIXME
-//                print("Download Progress: \(progress.fractionCompleted)")
-                progressInterval += 0.001
-            }
-//            print("Download Progress: \(progress.fractionCompleted)")
-
+            print("Download Progress: \(progress.fractionCompleted)")
         }
         .responseData { response in
             self.downloadedFileUrl = response.fileURL
@@ -106,7 +96,6 @@ class CountriesPresenter {
                 }
             }
         }
-        print(regions.count)
     }
     
     func fileToString(name: String, fileType: String) -> String {
