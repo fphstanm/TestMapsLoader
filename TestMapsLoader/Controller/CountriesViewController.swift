@@ -12,14 +12,8 @@ import SwiftyXMLParser
 import Alamofire
 import LinearProgressBar
 
-class CountriesTableViewController: UIViewController,
-                                    UITableViewDataSource,
-                                    UITableViewDelegate,
-                                    XMLParserDelegate,
-                                    CountryTableViewCellDelegate {
+class CountriesTableViewController: UIViewController, CountryTableViewCellDelegate {
 
-    
-    
     @IBOutlet weak var countriesTableView: UITableView!
     @IBOutlet weak var progressBarMemory: LinearProgressBar!
     @IBOutlet weak var freeMemoryLabel: UILabel!
@@ -31,39 +25,23 @@ class CountriesTableViewController: UIViewController,
         (_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: true)
         setTopBarsStyle()
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-//        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //WTF?
+        //TODO check does it work?
         navigationController?.navigationBar.barTintColor = UIColor(hex: "#ff8800")
-        print(" - - - - -  - - -")
         let diskSpace = presenter.getMemoryInfo()
         freeMemoryLabel.text = "Free " + diskSpace[0] + " Gb"
         progressBarMemory.progressValue = CGFloat(100 - (Float(diskSpace[0])! / Float(diskSpace[1])! * 100))
         
         presenter.parseRegionsXML()
-    }
-    
-//    func setupCountryCell(cell: CountryTableViewCell, country: String) {
-//        cell.setup(country: country, cellIndex: 1)
-// - - - - - -  - - - -  - -
-//    }
-    
-    func uicolorFromHex(rgbValue:UInt32)->UIColor{
-        let red = CGFloat((rgbValue & 0xFF0000) >> 16)/256.0
-        let green = CGFloat((rgbValue & 0xFF00) >> 8)/256.0
-        let blue = CGFloat(rgbValue & 0xFF)/256.0
-        
-        return UIColor(red:red, green:green, blue:blue, alpha:1.0)
     }
     
     func didPressButtonForMap(_ cellIndex: Int) {
@@ -74,7 +52,7 @@ class CountriesTableViewController: UIViewController,
 }
 
 
-extension CountriesTableViewController {
+extension CountriesTableViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -96,26 +74,19 @@ extension CountriesTableViewController {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let imageDetailController = self.storyboard!.instantiateViewController(withIdentifier: "ImageDetail") as! ImageDetailsViewController
-//        let url = URL(string: "http://gallery.dev.webant.ru/media/" + (self.mainDataArray[indexPath.row].image?.contentUrl)!)
-//        
-//        imageDetailController.imageUrl = url
-//        imageDetailController.imageName = mai´nDataArray[indexPath.row].name!
-//        imageDetailController.imageDescription = mainDataArray[indexPath.row].description!
-
         if !(presenter.regions[0].regions![indexPath.row].regions!.isEmpty) {
             let regionsViewController = storyboard!.instantiateViewController(withIdentifier: "Regions") as! RegionsViewController
             regionsViewController.regions = presenter.regions[0].regions![indexPath.row].regions!
             regionsViewController.countryIndex = indexPath.row
             regionsViewController.presenter = self.presenter
-            print("regions: ", presenter.regions[0].regions![indexPath.row].regions!)
             self.navigationController!.pushViewController(regionsViewController, animated: true)
-        } else {
-            print("no regions in this country")
         }
     }
+}
+
+//TODO: Move it to Utility.swift
+extension CountriesTableViewController {
     
-    //TODO: Move it to Utility.swift
     func setTopBarsStyle() {
         if #available(iOS 13.0, *) {
             let navBarAppearance = UINavigationBarAppearance()
@@ -149,7 +120,4 @@ extension CountriesTableViewController {
             statusBar?.backgroundColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
         }
     }
-    
 }
-
-//                let result = self.realm.objects(MapFile.self).filter("name = 'regionName'")

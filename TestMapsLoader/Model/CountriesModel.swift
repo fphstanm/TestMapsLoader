@@ -11,5 +11,4 @@ import Foundation
 struct Region {
     var name = ""
     var regions: [Region]?
-    var mapDownloaded: Bool?
 }

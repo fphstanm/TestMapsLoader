@@ -13,9 +13,9 @@ import Alamofire
 class CountriesPresenter {
     
     let view: CountriesTableViewController
-    
     var downloadedFileUrl: URL?
     var regions: [Region] = []
+    
     
     init(view: CountriesTableViewController) {
         self.view = view
@@ -41,6 +41,33 @@ class CountriesPresenter {
         }
 
         return totalAndAvailableMemory
+    }
+    
+    func parseRegionsXML() {
+        let xmlString = fileToString(name: "CountriesInfo", fileType: "xml")
+        let xml = try! XML.parse(xmlString)
+        let regionsList = xml.regions_list[0].region
+        
+        //TODO make it easier: add func
+        regionsList.forEach { continent in
+            let continentName = continent.first.attributes["name"]
+            let continentInfo = Region(name: continentName!, regions: [])
+            regions.append(continentInfo)
+            let continentIndex = regions.count - 1
+            
+            continent.region.forEach { country in
+                let countryName = country.first.attributes["name"]
+                let countryInfo = Region(name: countryName!, regions: [])
+                regions[continentIndex].regions?.append(countryInfo)
+                let countryIndex = regions[continentIndex].regions!.count - 1
+                
+                country.region.forEach { region in
+                    let regionName = region.first.attributes["name"]
+                    let area = Region(name: regionName!, regions: nil) //TODO force unwrap
+                    regions[continentIndex].regions?[countryIndex].regions?.append(area)
+                }
+            }
+        }
     }
     
     func downloadMap(_ continent: String, _ country: String, _ region: String?) {
@@ -70,34 +97,8 @@ class CountriesPresenter {
             self.downloadedFileUrl = response.fileURL
         }
     }
-    
-    func parseRegionsXML() {
-        let xmlString = fileToString(name: "CountriesInfo", fileType: "xml")
-        let xml = try! XML.parse(xmlString)
-        let regionsList = xml.regions_list[0].region
-        
-        //TODO make it easier
-        regionsList.forEach { continent in
-            let continentName = continent.first.attributes["name"]
-            let continentInfo = Region(name: continentName!, regions: [])
-            regions.append(continentInfo)
-            let continentIndex = regions.count - 1
-            
-            continent.region.forEach { country in
-                let countryName = country.first.attributes["name"]
-                let countryInfo = Region(name: countryName!, regions: [])
-                regions[continentIndex].regions?.append(countryInfo)
-                let countryIndex = regions[continentIndex].regions!.count - 1
-                
-                country.region.forEach { region in
-                    let regionName = region.first.attributes["name"]
-                    let area = Region(name: regionName!, regions: nil) //TODO force unwrap
-                    regions[continentIndex].regions?[countryIndex].regions?.append(area)
-                }
-            }
-        }
-    }
-    
+
+    //TODO move it to Utility as ext
     func fileToString(name: String, fileType: String) -> String {
         var xmlString = ""
         if let path = Bundle.main.path(forResource: name, ofType: fileType) {
