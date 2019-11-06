@@ -15,7 +15,10 @@ import LinearProgressBar
 class CountriesTableViewController: UIViewController,
                                     UITableViewDataSource,
                                     UITableViewDelegate,
-                                    XMLParserDelegate {
+                                    XMLParserDelegate,
+                                    CountryTableViewCellDelegate {
+
+    
     
     @IBOutlet weak var countriesTableView: UITableView!
     @IBOutlet weak var progressBarMemory: LinearProgressBar!
@@ -48,12 +51,12 @@ class CountriesTableViewController: UIViewController,
         progressBarMemory.progressValue = CGFloat(100 - (Float(diskSpace[0])! / Float(diskSpace[1])! * 100))
         
         presenter.parseRegionsXML()
-        presenter.downloadMap()
     }
     
-    func setupCountryCell(cell: CountryTableViewCell, country: String) {
-        cell.setup(country: country)
-    }
+//    func setupCountryCell(cell: CountryTableViewCell, country: String) {
+//        cell.setup(country: country, cellIndex: 1)
+// - - - - - -  - - - -  - -
+//    }
     
     func uicolorFromHex(rgbValue:UInt32)->UIColor{
         let red = CGFloat((rgbValue & 0xFF0000) >> 16)/256.0
@@ -61,6 +64,12 @@ class CountriesTableViewController: UIViewController,
         let blue = CGFloat(rgbValue & 0xFF)/256.0
         
         return UIColor(red:red, green:green, blue:blue, alpha:1.0)
+    }
+    
+    func didPressButtonForMap(_ cellIndex: Int) {
+        let continentName = presenter.regions[0].name //TODO: To make continent avaliable pass its index here
+        let countryName = presenter.regions[0].regions![cellIndex].name
+        presenter.downloadMap(continentName, countryName, nil)
     }
 }
 
@@ -79,7 +88,8 @@ extension CountriesTableViewController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = countriesTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CountryTableViewCell
-        cell.setup(country: presenter.regions[0].regions![indexPath.row].name) //TODO force unwrap
+        cell.setup(country: presenter.regions[0].regions![indexPath.row].name, cellIndex: indexPath.row) //TODO force unwrap
+        cell.delegate = self
         
         return cell
     }
@@ -95,6 +105,8 @@ extension CountriesTableViewController {
         if !(presenter.regions[0].regions![indexPath.row].regions!.isEmpty) {
             let regionsViewController = storyboard!.instantiateViewController(withIdentifier: "Regions") as! RegionsViewController
             regionsViewController.regions = presenter.regions[0].regions![indexPath.row].regions!
+            regionsViewController.countryIndex = indexPath.row
+            regionsViewController.presenter = self.presenter
             print("regions: ", presenter.regions[0].regions![indexPath.row].regions!)
             self.navigationController!.pushViewController(regionsViewController, animated: true)
         } else {
@@ -137,35 +149,6 @@ extension CountriesTableViewController {
         }
     }
     
-}
-
-
-extension UIColor {
-    public convenience init?(hex: String) {
-        let r, g, b, a: CGFloat
-
-        if hex.hasPrefix("#") {
-            let start = hex.index(hex.startIndex, offsetBy: 1)
-            let hexColor = String(hex[start...])
-
-            if hexColor.count == 8 {
-                let scanner = Scanner(string: hexColor)
-                var hexNumber: UInt64 = 0
-
-                if scanner.scanHexInt64(&hexNumber) {
-                    r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
-                    g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
-                    b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
-                    a = CGFloat(hexNumber & 0x000000ff) / 255
-
-                    self.init(red: r, green: g, blue: b, alpha: a)
-                    return
-                }
-            }
-        }
-
-        return nil
-    }
 }
 
 //                let result = self.realm.objects(MapFile.self).filter("name = 'regionName'")

@@ -10,41 +10,43 @@ import Foundation
 import UIKit
 import LinearProgressBar
 
+protocol CountryTableViewCellDelegate {
+    func didPressButtonForMap(_ cellIndex: Int)
+}
+
 class CountryTableViewCell: UITableViewCell {
     
     @IBOutlet weak var countryName: UILabel!
     @IBOutlet weak var mapIcon: UIImageView!
-    
-    @IBOutlet weak var mapLoadStatusView: UIView!
-    @IBOutlet weak var mapLoadStatusImage: UIImageView!
-    
+    @IBOutlet weak var loadMapView: UIView!
+    @IBOutlet weak var loadMapStatus: UIImageView!
     @IBOutlet weak var progressBar: LinearProgressBar!
     
+    var delegate: CountryTableViewCellDelegate?
+    var cellIndex: Int?
     
-    func setup(country: String) {
-//        let countryUp = String((country.prefix(1).capitalized).dropFirst())
+    
+    func setup(country: String, cellIndex: Int) {
+        self.cellIndex = cellIndex
         self.countryName.text = country.capitalizingFirstLetter()
-        let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeLoadBtnColor))
+        let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedLoadMapView))
         loadRecognizer.delegate = self
-        self.mapLoadStatusView.addGestureRecognizer(loadRecognizer)
-        self.mapLoadStatusView.isUserInteractionEnabled = true
+        
+        self.loadMapView.addGestureRecognizer(loadRecognizer)
+        self.loadMapView.isUserInteractionEnabled = true
     }
     
-    @objc func changeLoadBtnColor() {
-        self.mapLoadStatusImage.tintColor = UIColor.green
+    func changeLoadBtnColor() {
+        self.loadMapStatus.tintColor = UIColor.green
     }
     
-    func changeLoadingProgress(_ percent: Int) {
-        progressBar.progressValue = CGFloat(percent)
+    @objc func tappedLoadMapView() {
+        self.changeLoadBtnColor()
+        delegate?.didPressButtonForMap(self.cellIndex!)
+        
     }
 }
 
-extension String {
-    func capitalizingFirstLetter() -> String {
-        return prefix(1).capitalized + dropFirst()
-    }
+//        let countryUp = String((country.prefix(1).capitalized).dropFirst())
 
-    mutating func capitalizeFirstLetter() {
-        self = self.capitalizingFirstLetter()
-    }
-}
+

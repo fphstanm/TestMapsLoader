@@ -11,12 +11,14 @@ import UIKit
 
 class RegionsViewController: UIViewController,
                              UITableViewDataSource,
-                             UITableViewDelegate {
+                             UITableViewDelegate,
+                             RegionCellDelegate {
     
     @IBOutlet weak var regionsTableView: UITableView!
 
     var regions: [Region] = []
-
+    var countryIndex: Int?
+    var presenter: CountriesPresenter?
 
     override func viewWillAppear(_ animated: Bool) {
         
@@ -30,17 +32,24 @@ class RegionsViewController: UIViewController,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = regionsTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RegionTableViewCell
-        cell.setup(region: regions[indexPath.row].name)
-
+        cell.setup(region: regions[indexPath.row].name, cellIndex: indexPath.row)
+        cell.delegate = self
         return cell
     }
 
-    func setupRegionCell(cell: RegionTableViewCell, region: String) {
-        cell.setup(region: region)
-    }
+//    func setupRegionCell(cell: RegionTableViewCell, region: String) {
+//        cell.setup(region: region)
+//    }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
+    }
+    
+    func didPressButtonForMap(_ cellIndex: Int) {
+        let continentName = presenter?.regions[0].name
+        let countryName = presenter?.regions[0].regions![countryIndex!].name
+        let regionName = presenter?.regions[0].regions![countryIndex!].regions![cellIndex].name
+        presenter!.downloadMap(continentName!, countryName!, regionName!)
     }
     
     //TODO: Move it to Utility.swift

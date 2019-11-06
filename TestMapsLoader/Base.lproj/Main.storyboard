@@ -178,9 +178,9 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="countryName" destination="R6d-9c-GHW" id="7Cn-It-8if"/>
+                                            <outlet property="loadMapStatus" destination="bIt-X6-dWe" id="800-PP-bYf"/>
+                                            <outlet property="loadMapView" destination="3AI-ty-jvf" id="a75-A2-aLZ"/>
                                             <outlet property="mapIcon" destination="E99-J2-Iqh" id="iYS-J5-tqZ"/>
-                                            <outlet property="mapLoadStatusImage" destination="bIt-X6-dWe" id="800-PP-bYf"/>
-                                            <outlet property="mapLoadStatusView" destination="3AI-ty-jvf" id="a75-A2-aLZ"/>
                                             <outlet property="progressBar" destination="wdC-aU-ygs" id="vDC-bM-jak"/>
                                         </connections>
                                     </tableViewCell>
@@ -312,6 +312,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="loadMapStatus" destination="Y6c-Iu-pTa" id="FUr-aR-9Op"/>
+                                            <outlet property="loadMapView" destination="pz6-Kv-T50" id="YYt-hi-gyM"/>
                                             <outlet property="mapIcon" destination="AgS-b7-9Hn" id="1ZV-i1-AKh"/>
                                             <outlet property="regionName" destination="4Un-CI-AJa" id="nXp-dy-c5E"/>
                                         </connections>
@@ -362,12 +364,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OWi-yp-lgK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2924" y="107.49625187406298"/>
+            <point key="canvasLocation" x="1706" y="107"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="j6f-Vu-xBY">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tY0-rQ-o5r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="J5N-Sc-eg0" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ajd-cM-rqU">
@@ -379,6 +380,7 @@
                         <segue destination="VqC-oL-hih" kind="relationship" relationship="rootViewController" id="eIf-eI-IwD"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tY0-rQ-o5r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="191" y="108"/>
         </scene>

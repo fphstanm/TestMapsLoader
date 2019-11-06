@@ -16,7 +16,6 @@ class CountriesPresenter {
     
     var downloadedFileUrl: URL?
     var regions: [Region] = []
-
     
     init(view: CountriesTableViewController) {
         self.view = view
@@ -34,7 +33,6 @@ class CountriesPresenter {
                 var totalStr = String(total).dropLast(7)
                 totalStr.insert(".", at: totalStr.index(totalStr.endIndex, offsetBy: -2))
                 
-                print(" - - - ", capacityStr, " ", totalStr)
                 totalAndAvailableMemory.append(contentsOf: [String(capacityStr),String(totalStr)])
             }
 
@@ -45,20 +43,38 @@ class CountriesPresenter {
         return totalAndAvailableMemory
     }
     
-    func downloadMap() {
-//        AF.download("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf")
-//        AF.download("http://download.osmand.net/download.php?standard=yes&file=Germany_berlin_europe_2.obf.zip")
-//        AF.download("https://httpbin.org/image/png") //, to: destination
+    func downloadMap(_ continent: String, _ country: String, _ region: String?) {
+        var fileName: String
+        let serverStartUrl: String = "http://download.osmand.net/download.php?standard=yes&file="
+        
+        if let region = region {
+            fileName = country.capitalizingFirstLetter() + "_" + region + "_" + continent + "_2.obf.zip"
+            print(" - fileName: ", fileName)
+        } else {
+            fileName = country.capitalizingFirstLetter() + "_" + continent + "_2.obf.zip"
+            print(" - fileName: ", fileName)
+        }
         
         let destination: DownloadRequest.Destination = { _, _ in
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let fileURL = documentsURL.appendingPathComponent("image.png")
+            let fileURL = documentsURL.appendingPathComponent(fileName)
+            print("fileUrl: ",fileURL)
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
         
-        AF.download("https://httpbin.org/image/png", to: destination)
+        var progressInterval: Double = 0.001
+        AF.download(serverStartUrl + fileName, to: destination)
         .downloadProgress { progress in
-            print("Download Progress: \(progress.fractionCompleted)")
+            if progressInterval < progress.fractionCompleted {
+                var progressStr = String(progress.fractionCompleted)
+                progressStr = String((progressStr.dropFirst()).dropFirst())
+                let index = progressStr.index(progressStr.startIndex, offsetBy: 1)
+                print("Dowload Progress:", progressStr[..<index], "0 %") //FIXME
+//                print("Download Progress: \(progress.fractionCompleted)")
+                progressInterval += 0.001
+            }
+//            print("Download Progress: \(progress.fractionCompleted)")
+
         }
         .responseData { response in
             self.downloadedFileUrl = response.fileURL
@@ -76,7 +92,6 @@ class CountriesPresenter {
             let continentInfo = Region(name: continentName!, regions: [])
             regions.append(continentInfo)
             let continentIndex = regions.count - 1
-            print("continent index", continentIndex)
             
             continent.region.forEach { country in
                 let countryName = country.first.attributes["name"]
@@ -109,13 +124,3 @@ class CountriesPresenter {
 }
 
 
-extension Data {
-    func sizeString(units: ByteCountFormatter.Units = [.useAll], countStyle: ByteCountFormatter.CountStyle = .file) -> String {
-        let bcf = ByteCountFormatter()
-        bcf.allowedUnits = units
-        bcf.countStyle = .file
-
-        return bcf.string(fromByteCount: Int64(count))
-    }
-    
-}
