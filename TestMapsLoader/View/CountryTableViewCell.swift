@@ -26,32 +26,39 @@ class CountryTableViewCell: UITableViewCell {
     var cellIndex: Int?
     
     
-    func setup(country: String, cellIndex: Int, countainRegions: Bool) {
+    func setup(country: String, cellIndex: Int, countainRegions: Bool, laodStatus: DownloadStatus) {
         self.cellIndex = cellIndex
         self.countryName.text = country.capitalizingFirstLetter()
+        setLoadStatus(laodStatus)
         
         if countainRegions {
-            setForwardImage()
+            setForwardButton()
         } else {
             setLoadButton()
         }
     }
     
     @objc func tappedLoadMapView() {
-        self.changeLoadBtnColor(isLoaded: false)
+        setLoadStatus(.downloading)
         self.loadMapView.isUserInteractionEnabled = false
         delegate?.didPressButtonForMap(self.cellIndex!)
     }
     
-    func changeLoadBtnColor(isLoaded: Bool) {
-        if isLoaded {
-            self.loadMapStatus.tintColor = UIColor.green
-        } else {
+    func setLoadStatus(_ status: DownloadStatus) {
+        switch status {
+        case .notAvailable:
             self.loadMapStatus.tintColor = #colorLiteral(red: 0.7960784314, green: 0.7803921569, blue: 0.8196078431, alpha: 1)
+        case .available:
+            self.loadMapStatus.tintColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
+        case .downloading:
+            self.loadMapStatus.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+        case .complete:
+            self.loadMapStatus.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         }
     }
     
     func setLoadButton() {
+        self.loadMapStatus.image = UIImage(named: "ic_custom_import")
         let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedLoadMapView))
         loadRecognizer.delegate = self
         
@@ -59,7 +66,8 @@ class CountryTableViewCell: UITableViewCell {
         self.loadMapView.isUserInteractionEnabled = true
     }
     
-    func setForwardImage() {
+    func setForwardButton() {
         self.loadMapStatus.image = UIImage(named: "ic_custom_forward")
+        self.loadMapView.isUserInteractionEnabled = false
     }
 }

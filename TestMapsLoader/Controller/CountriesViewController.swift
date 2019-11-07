@@ -45,9 +45,8 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
     }
     
     func didPressButtonForMap(_ cellIndex: Int) {
-        let continentName = presenter.regions[0].name //TODO: To make continent avaliable pass its index here
-        let countryName = presenter.regions[0].regions![cellIndex].name
-        presenter.downloadMap(continentName, countryName, nil)
+        presenter.downloadMap(0, cellIndex, nil)
+        presenter.regions[0].regions![cellIndex].loadStatus = .downloading
     }
 }
 
@@ -67,7 +66,8 @@ extension CountriesTableViewController: UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = countriesTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CountryTableViewCell
         let containRegions: Bool = !(presenter.regions[0].regions![indexPath.row].regions!.isEmpty)
-        cell.setup(country: presenter.regions[0].regions![indexPath.row].name, cellIndex: indexPath.row, countainRegions: containRegions) //TODO force unwrap
+        
+        cell.setup(country: presenter.regions[0].regions![indexPath.row].name, cellIndex: indexPath.row, countainRegions: containRegions, laodStatus: presenter.regions[0].regions![indexPath.row].loadStatus) //TODO force unwrap
         cell.delegate = self
         
         return cell
@@ -84,40 +84,3 @@ extension CountriesTableViewController: UITableViewDataSource, UITableViewDelega
     }
 }
 
-//TODO: Move it to Utility.swift
-extension CountriesTableViewController {
-    
-    func setTopBarsStyle() {
-        if #available(iOS 13.0, *) {
-            let navBarAppearance = UINavigationBarAppearance()
-            navBarAppearance.configureWithOpaqueBackground()
-            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-            navBarAppearance.backgroundColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
-            navigationController?.navigationBar.standardAppearance = navBarAppearance
-            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-        }
-        if #available(iOS 13.0, *) {
-            let app = UIApplication.shared
-            let statusBarHeight: CGFloat = app.statusBarFrame.size.height
-
-            let statusbarView = UIView()
-            statusbarView.backgroundColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
-            view.addSubview(statusbarView)
-
-            statusbarView.translatesAutoresizingMaskIntoConstraints = false
-            statusbarView.heightAnchor
-                .constraint(equalToConstant: statusBarHeight).isActive = true
-            statusbarView.widthAnchor
-                .constraint(equalTo: view.widthAnchor, multiplier: 1.0).isActive = true
-            statusbarView.topAnchor
-                .constraint(equalTo: view.topAnchor).isActive = true
-            statusbarView.centerXAnchor
-                .constraint(equalTo: view.centerXAnchor).isActive = true
-
-        } else {
-            let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
-            statusBar?.backgroundColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
-        }
-    }
-}

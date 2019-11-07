@@ -15,7 +15,8 @@ class CountriesPresenter {
     let view: CountriesTableViewController
     var downloadedFileUrl: URL?
     var regions: [Region] = []
-    
+    let defaults = UserDefaults.standard
+        
     
     init(view: CountriesTableViewController) {
         self.view = view
@@ -51,35 +52,58 @@ class CountriesPresenter {
         //TODO make it easier: add func
         regionsList.forEach { continent in
             let continentName = continent.first.attributes["name"]
-            let continentInfo = Region(name: continentName!, regions: [])
+            let continentInfo = Region(name: continentName!, regions: [], loadStatus: .available)
             regions.append(continentInfo)
             let continentIndex = regions.count - 1
             
             continent.region.forEach { country in
                 let countryName = country.first.attributes["name"]
-                let countryInfo = Region(name: countryName!, regions: [])
+                let countryInfo = Region(name: countryName!, regions: [], loadStatus: .available)
                 regions[continentIndex].regions?.append(countryInfo)
                 let countryIndex = regions[continentIndex].regions!.count - 1
                 
                 country.region.forEach { region in
                     let regionName = region.first.attributes["name"]
-                    let area = Region(name: regionName!, regions: nil) //TODO force unwrap
+                    let area = Region(name: regionName!, regions: nil, loadStatus: .available) //TODO force unwrap
                     regions[continentIndex].regions?[countryIndex].regions?.append(area)
                 }
             }
         }
+        
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(self.regions) {
+            self.defaults.set(encoded, forKey: "Regions")
+        }
+        
+        if let savedPerson = self.defaults.object(forKey: "Regions") as? Data {
+            let decoder = JSONDecoder()
+            if let loadedPerson = try? decoder.decode([Region].self, from: savedPerson) {
+                print(" - - - Does it work?")
+                print(loadedPerson[0].regions![0].loadStatus == .notAvailable)
+            }
+        }
     }
     
-    func downloadMap(_ continent: String, _ country: String, _ region: String?) {
+    func readSavedRegionsInfo() {
+        //then open app read saved to tempRegions
+    }
+    
+    func saveRegionsInfoToUserDefaults() {
+        //appDelegate then close app save tempRegions
+    }
+    
+    func downloadMap(_ continent: Int, _ country: Int, _ region: Int?) {
         var fileName: String
         let serverStartUrl: String = "http://download.osmand.net/download.php?standard=yes&file="
         
+        let continentName = self.regions[0].name //TODO: To make continent avaliable pass its index here
+        let countryName = self.regions[0].regions![country].name
+        
         if let region = region {
-            fileName = country.capitalizingFirstLetter() + "_" + region + "_" + continent + "_2.obf.zip"
-            print(" - fileName: ", fileName)
+            let regionName = self.regions[0].regions![country].regions![region].name
+            fileName = countryName.capitalizingFirstLetter() + "_" + regionName + "_" + continentName + "_2.obf.zip"
         } else {
-            fileName = country.capitalizingFirstLetter() + "_" + continent + "_2.obf.zip"
-            print(" - fileName: ", fileName)
+            fileName = countryName.capitalizingFirstLetter() + "_" + continentName + "_2.obf.zip"
         }
         
         let destination: DownloadRequest.Destination = { _, _ in
@@ -95,6 +119,13 @@ class CountriesPresenter {
         }
         .responseData { response in
             self.downloadedFileUrl = response.fileURL
+
+            if let region = region {
+                self.regions[0].regions![country].regions![region].loadStatus = .complete
+                
+             } else {
+                 self.regions[0].regions![country].loadStatus = .complete
+             }
         }
     }
 

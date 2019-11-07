@@ -24,9 +24,11 @@ class RegionTableViewCell: UITableViewCell {
     var delegate: RegionCellDelegate?
     
     
-    func setup(region: String, cellIndex: Int) {
+    func setup(region: String, cellIndex: Int, loadStatus: DownloadStatus) {
         self.cellIndex = cellIndex
         self.regionName.text = region.capitalizingFirstLetter()
+        setLoadStatus(loadStatus)
+
         
         let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedLoadMapView))
         loadRecognizer.delegate = self
@@ -35,20 +37,23 @@ class RegionTableViewCell: UITableViewCell {
     }
     
     @objc func tappedLoadMapView() {
-        self.changeLoadBtnColor(isLoaded: false)
+        self.setLoadStatus(.downloading)
         self.loadMapView.isUserInteractionEnabled = false
         delegate?.didPressButtonForMap(self.cellIndex!)
     }
     
-    func changeLoadBtnColor(isLoaded: Bool) {
-         if isLoaded {
-             self.loadMapStatus.tintColor = UIColor.green
-         } else {
-             self.loadMapStatus.tintColor = #colorLiteral(red: 0.7960784314, green: 0.7803921569, blue: 0.8196078431, alpha: 1)
-         }
-     }
-    
-
+    func setLoadStatus(_ status: DownloadStatus) {
+        switch status {
+        case .notAvailable:
+            self.loadMapStatus.tintColor = #colorLiteral(red: 0.7960784314, green: 0.7803921569, blue: 0.8196078431, alpha: 1)
+        case .available:
+            self.loadMapStatus.tintColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
+        case .downloading:
+            self.loadMapStatus.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+        case .complete:
+            self.loadMapStatus.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        }
+    }
     
 
 }
