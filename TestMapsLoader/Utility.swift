@@ -9,6 +9,41 @@
 import Foundation
 import UIKit
 
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+}
+
+extension String {
+    func fileToString(name: String, type: String) -> String {
+        var xmlString = ""
+        if let path = Bundle.main.path(forResource: name, ofType: type) {
+            do {
+                xmlString = try String(contentsOfFile: path)
+            } catch {
+                // contents could not be loaded
+            }
+        }
+        
+        return xmlString
+    }
+}
+
+extension Data {
+    func sizeString(units: ByteCountFormatter.Units = [.useAll], countStyle: ByteCountFormatter.CountStyle = .file) -> String {
+        let bcf = ByteCountFormatter()
+        bcf.allowedUnits = units
+        bcf.countStyle = .file
+
+        return bcf.string(fromByteCount: Int64(count))
+    }
+}
+
 extension UIColor {
     public convenience init?(hex: String) {
         let r, g, b, a: CGFloat
@@ -37,26 +72,6 @@ extension UIColor {
     }
 }
 
-extension String {
-    func capitalizingFirstLetter() -> String {
-        return prefix(1).capitalized + dropFirst()
-    }
-
-    mutating func capitalizeFirstLetter() {
-        self = self.capitalizingFirstLetter()
-    }
-}
-
-extension Data {
-    func sizeString(units: ByteCountFormatter.Units = [.useAll], countStyle: ByteCountFormatter.CountStyle = .file) -> String {
-        let bcf = ByteCountFormatter()
-        bcf.allowedUnits = units
-        bcf.countStyle = .file
-
-        return bcf.string(fromByteCount: Int64(count))
-    }
-}
-
 extension UIViewController {
     
     func setTopBarsStyle() {
@@ -71,6 +86,7 @@ extension UIViewController {
             navigationController?.navigationBar.standardAppearance = navBarAppearance
             navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
 
+            
             // StatusBar
             let app = UIApplication.shared
             let statusBarHeight: CGFloat = app.statusBarFrame.size.height

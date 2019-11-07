@@ -26,14 +26,19 @@ class RegionsViewController: UIViewController,
         navigationController?.navigationBar.backItem?.title = ""    }
     
     override func viewDidLoad() {
-//        self.presenter!.regions[0].regions![countryIndex!].name).capitalizingFirstLetter()
-        self.navigationItem.title = (self.presenter!.regions[0].regions![countryIndex!].name).capitalizingFirstLetter()
+        let title = (self.presenter!.regions[0].regions![countryIndex!].name).capitalizingFirstLetter()
+        self.navigationItem.title = title
     }
     
     func didPressButtonForMap(_ cellIndex: Int) {
         presenter!.downloadMap(0, countryIndex!, cellIndex)
         presenter!.regions[0].regions![countryIndex!].regions![cellIndex].loadStatus = .downloading
     }
+
+}
+
+
+extension RegionsViewController {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -49,8 +54,13 @@ class RegionsViewController: UIViewController,
         let cell = regionsTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RegionTableViewCell
         cell.setup(region: regions[indexPath.row].name,
                    cellIndex: indexPath.row,
+                   //FIXME: very bad implementation. Move it to presenter method
                    loadStatus: presenter!.regions[0].regions![countryIndex!].regions![indexPath.row].loadStatus)
         cell.delegate = self
         return cell
+    }
+    
+    func reloadTable() {
+        self.regionsTableView.reloadData()
     }
 }

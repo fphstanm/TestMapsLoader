@@ -12,6 +12,10 @@ import SwiftyXMLParser
 import Alamofire
 import LinearProgressBar
 
+protocol CountriesView {
+    func reloadTable()
+}
+
 class CountriesTableViewController: UIViewController, CountryTableViewCellDelegate {
 
     @IBOutlet weak var countriesTableView: UITableView!
@@ -51,7 +55,7 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
 }
 
 
-extension CountriesTableViewController: UITableViewDataSource, UITableViewDelegate {
+extension CountriesTableViewController: UITableViewDataSource, UITableViewDelegate, CountriesView {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -81,6 +85,10 @@ extension CountriesTableViewController: UITableViewDataSource, UITableViewDelega
             regionsViewController.presenter = self.presenter
             self.navigationController!.pushViewController(regionsViewController, animated: true)
         }
+    }
+    
+    func reloadTable() {
+        self.countriesTableView.reloadData()
     }
 }
 

@@ -78,8 +78,9 @@
 		EF6E4010237060DB0022C30C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				EF6E400E2370608B0022C30C /* RegionsViewController.swift */,
+				EFE174602374913C00ACE215 /* Cell */,
 				EFF3B79F236893C200031570 /* CountriesViewController.swift */,
+				EF6E400E2370608B0022C30C /* RegionsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -100,13 +101,13 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
-		EF6E401323709CD50022C30C /* View */ = {
+		EFE174602374913C00ACE215 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
 				EFF3B7A323689E9000031570 /* CountryTableViewCell.swift */,
 				EF6E40142370A3C40022C30C /* RegionTableViewCell.swift */,
 			);
-			path = View;
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		EFF3B77C2368857000031570 = {
@@ -133,7 +134,6 @@
 				EF6E4010237060DB0022C30C /* Controller */,
 				EF6E4011237060F00022C30C /* Model */,
 				EF6E401223706F0E0022C30C /* Presenter */,
-				EF6E401323709CD50022C30C /* View */,
 				EFF3B78E2368857000031570 /* Main.storyboard */,
 				EF0B96012370ED8A00FB27FA /* Utility.swift */,
 				EFF3B7882368857000031570 /* AppDelegate.swift */,

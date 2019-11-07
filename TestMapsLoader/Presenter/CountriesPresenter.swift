@@ -17,9 +17,13 @@ class CountriesPresenter {
     var regions: [Region] = []
     let defaults = UserDefaults.standard
         
-    
+
     init(view: CountriesTableViewController) {
         self.view = view
+    }
+    
+    func reloadCountriesTableView() {
+        self.view.reloadTable()
     }
     
     func getMemoryInfo() -> [String] {
@@ -36,7 +40,6 @@ class CountriesPresenter {
                 
                 totalAndAvailableMemory.append(contentsOf: [String(capacityStr),String(totalStr)])
             }
-
         } catch {
             print("Error retrieving capacity: \(error.localizedDescription)")
         }
@@ -45,7 +48,7 @@ class CountriesPresenter {
     }
     
     func parseRegionsXML() {
-        let xmlString = fileToString(name: "CountriesInfo", fileType: "xml")
+        let xmlString = String().fileToString(name: "CountriesInfo", type: "xml")
         let xml = try! XML.parse(xmlString)
         let regionsList = xml.regions_list[0].region
         
@@ -69,34 +72,13 @@ class CountriesPresenter {
                 }
             }
         }
-        
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(self.regions) {
-            self.defaults.set(encoded, forKey: "Regions")
-        }
-        
-        if let savedPerson = self.defaults.object(forKey: "Regions") as? Data {
-            let decoder = JSONDecoder()
-            if let loadedPerson = try? decoder.decode([Region].self, from: savedPerson) {
-                print(" - - - Does it work?")
-                print(loadedPerson[0].regions![0].loadStatus == .notAvailable)
-            }
-        }
-    }
-    
-    func readSavedRegionsInfo() {
-        //then open app read saved to tempRegions
-    }
-    
-    func saveRegionsInfoToUserDefaults() {
-        //appDelegate then close app save tempRegions
     }
     
     func downloadMap(_ continent: Int, _ country: Int, _ region: Int?) {
         var fileName: String
         let serverStartUrl: String = "http://download.osmand.net/download.php?standard=yes&file="
         
-        let continentName = self.regions[0].name //TODO: To make continent avaliable pass its index here
+        let continentName = self.regions[0].name
         let countryName = self.regions[0].regions![country].name
         
         if let region = region {
@@ -122,26 +104,31 @@ class CountriesPresenter {
 
             if let region = region {
                 self.regions[0].regions![country].regions![region].loadStatus = .complete
-                
+                //TODO: How to reload data??
              } else {
                  self.regions[0].regions![country].loadStatus = .complete
+                 self.view.reloadTable()
              }
         }
     }
+    
+    //Will be soon
+    
+//    func readSavedRegionsInfo() {
+//        if let savedRegions = self.defaults.object(forKey: "Regions") as? Data {
+//            let decoder = JSONDecoder()
+//            if let regionsDecoded = try? decoder.decode([Region].self, from: savedRegions) {
+//                self.regions = regionsDecoded
+//            }
+//        }
+//    }
+//
+//    func saveRegionsInfo() {
+//        let encoder = JSONEncoder()
+//        if let encoded = try? encoder.encode(self.regions) {
+//            self.defaults.set(encoded, forKey: "Regions")
+//        }
+//    }
 
-    //TODO move it to Utility as ext
-    func fileToString(name: String, fileType: String) -> String {
-        var xmlString = ""
-        if let path = Bundle.main.path(forResource: name, ofType: fileType) {
-            do {
-                xmlString = try String(contentsOfFile: path)
-            } catch {
-                // contents could not be loaded
-            }
-        }
-        
-        return xmlString
-    }
 }
-
 
