@@ -20,3 +20,28 @@ struct Region: Codable {
     var regions: [Region]?
     var loadStatus: DownloadStatus = .notAvailable
 }
+
+/*
+struct Continent: Codable {
+    var name = ""
+    var regions: [Country]?
+    var loadStatus: DownloadStatus = .notAvailable
+}
+
+struct Country: Codable {
+    var name = ""
+    var regions: [Region]?
+    var loadStatus: DownloadStatus = .notAvailable
+}
+
+struct Region: Codable {
+    var name = ""
+    var regions: [Area]?
+    var loadStatus: DownloadStatus = .notAvailable
+}
+
+struct Area: Codable {
+    var name = ""
+    var loadStatus: DownloadStatus = .notAvailable
+}
+*/
