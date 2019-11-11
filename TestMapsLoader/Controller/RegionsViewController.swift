@@ -33,10 +33,9 @@ class RegionsViewController: UIViewController,
     
     func didPressButtonForMap(_ cellIndex: Int) {
         presenter.downloadMap(0, countryIndex!, cellIndex)
-//        presenter.regions[cellIndex].loadStatus = .downloading
+        presenter.regions[cellIndex].loadStatus = .downloading
         presenter.changeLoadStatus(countryIndex: countryIndex!, regionIndex: cellIndex)
     }
-
 }
 
 

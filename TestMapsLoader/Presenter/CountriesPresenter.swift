@@ -52,7 +52,12 @@ class CountriesPresenter {
         
         AF.download(serverStartUrl + fileName, to: destination)
         .downloadProgress { progress in
-            print("Download Progress: \(progress.fractionCompleted)")
+            //TODO mb DispachQueue .. async
+            //FIXME display status in particalar cell !
+            if let mapCell = self.view.countriesTableView.cellForRow(at: IndexPath(row: country, section: 0)) as? CountryTableViewCell {
+                mapCell.updateDisplay(progress: (progress.fractionCompleted) * 100, totalSize: "100")
+                mapCell.progressBar.isHidden = false //FIXME isHidden
+            }
         }
         .responseData { response in
             self.downloadedFileUrl = response.fileURL

@@ -54,6 +54,7 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
     func didPressButtonForMap(_ cellIndex: Int) {
         presenter.downloadMap(0, cellIndex)
         presenter.changeLoadStatus(cellIndex)
+        presenter.countries[cellIndex].loadStatus = .downloading
     }
 }
 

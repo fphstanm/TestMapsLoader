@@ -179,7 +179,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="countryName" destination="R6d-9c-GHW" id="7Cn-It-8if"/>
-                                            <outlet property="loadMapStatus" destination="bIt-X6-dWe" id="800-PP-bYf"/>
+                                            <outlet property="loadMapIcon" destination="bIt-X6-dWe" id="800-PP-bYf"/>
                                             <outlet property="loadMapView" destination="3AI-ty-jvf" id="a75-A2-aLZ"/>
                                             <outlet property="mapIcon" destination="E99-J2-Iqh" id="iYS-J5-tqZ"/>
                                             <outlet property="progressBar" destination="wdC-aU-ygs" id="vDC-bM-jak"/>
@@ -297,13 +297,19 @@
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="barThickness">
-                                                            <real key="value" value="0.0"/>
+                                                            <real key="value" value="5"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="barColor">
                                                             <color key="value" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="trackColor">
                                                             <color key="value" red="0.79607843140000001" green="0.78039215689999997" blue="0.81960784310000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="barPadding">
+                                                            <real key="value" value="2"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="trackPadding">
+                                                            <real key="value" value="1"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
@@ -325,9 +331,10 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="loadMapStatus" destination="Y6c-Iu-pTa" id="FUr-aR-9Op"/>
+                                            <outlet property="loadMapIcon" destination="Y6c-Iu-pTa" id="FUr-aR-9Op"/>
                                             <outlet property="loadMapView" destination="pz6-Kv-T50" id="YYt-hi-gyM"/>
                                             <outlet property="mapIcon" destination="AgS-b7-9Hn" id="1ZV-i1-AKh"/>
+                                            <outlet property="progressBar" destination="X1W-pp-gQc" id="fli-1A-qAE"/>
                                             <outlet property="regionName" destination="4Un-CI-AJa" id="nXp-dy-c5E"/>
                                         </connections>
                                     </tableViewCell>

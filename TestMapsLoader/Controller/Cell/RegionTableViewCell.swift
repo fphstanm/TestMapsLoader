@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import LinearProgressBar
 
 protocol RegionCellDelegate {
     func didPressButtonForMap(_ cellIndex: Int)
@@ -18,11 +19,17 @@ class RegionTableViewCell: UITableViewCell {
     @IBOutlet weak var regionName: UILabel!
     @IBOutlet weak var mapIcon: UIImageView!
     @IBOutlet weak var loadMapView: UIView!
-    @IBOutlet weak var loadMapStatus: UIImageView!
+    @IBOutlet weak var loadMapIcon: UIImageView!
+    @IBOutlet weak var progressBar: LinearProgressBar!
     
     var cellIndex: Int?
     var delegate: RegionCellDelegate?
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        progressBar.progressValue = 0
+        progressBar.isHidden = true
+    }
     
     func setup(region: String, cellIndex: Int, loadStatus: DownloadStatus) {
         self.cellIndex = cellIndex
@@ -33,24 +40,33 @@ class RegionTableViewCell: UITableViewCell {
         loadRecognizer.delegate = self
         self.loadMapView.addGestureRecognizer(loadRecognizer)
         self.loadMapView.isUserInteractionEnabled = true
+        
+        if loadStatus == .downloading {
+            self.progressBar.isHidden = false
+        }
     }
     
     @objc func tappedLoadMapView() {
         self.setLoadColor(.downloading)
+        self.progressBar.isHidden = false // FIXME isHidden
         self.loadMapView.isUserInteractionEnabled = false
         delegate?.didPressButtonForMap(self.cellIndex!)
+    }
+    
+    func updateDisplay(progress: Double, totalSize: String) {
+        progressBar.progressValue = CGFloat(progress)
     }
     
     func setLoadColor(_ status: DownloadStatus) {
         switch status {
         case .notAvailable:
-            self.loadMapStatus.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+            self.loadMapIcon.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
         case .available:
-            self.loadMapStatus.tintColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
+            self.loadMapIcon.tintColor = #colorLiteral(red: 1, green: 0.5333333333, blue: 0, alpha: 1)
         case .downloading:
-            self.loadMapStatus.tintColor = #colorLiteral(red: 0.7960784314, green: 0.7803921569, blue: 0.8196078431, alpha: 1)
+            self.loadMapIcon.tintColor = #colorLiteral(red: 0.7960784314, green: 0.7803921569, blue: 0.8196078431, alpha: 1)
         case .complete:
-            self.loadMapStatus.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+            self.loadMapIcon.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         }
     }
     
