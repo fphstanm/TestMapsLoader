@@ -27,9 +27,8 @@ class RegionTableViewCell: UITableViewCell {
     func setup(region: String, cellIndex: Int, loadStatus: DownloadStatus) {
         self.cellIndex = cellIndex
         self.regionName.text = region.capitalizingFirstLetter()
-        setLoadStatus(loadStatus)
+        setLoadColor(loadStatus)
 
-        
         let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedLoadMapView))
         loadRecognizer.delegate = self
         self.loadMapView.addGestureRecognizer(loadRecognizer)
@@ -37,12 +36,12 @@ class RegionTableViewCell: UITableViewCell {
     }
     
     @objc func tappedLoadMapView() {
-        self.setLoadStatus(.downloading)
+        self.setLoadColor(.downloading)
         self.loadMapView.isUserInteractionEnabled = false
         delegate?.didPressButtonForMap(self.cellIndex!)
     }
     
-    func setLoadStatus(_ status: DownloadStatus) {
+    func setLoadColor(_ status: DownloadStatus) {
         switch status {
         case .notAvailable:
             self.loadMapStatus.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)

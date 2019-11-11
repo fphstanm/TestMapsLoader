@@ -29,7 +29,7 @@ class CountryTableViewCell: UITableViewCell {
     func setup(country: String, cellIndex: Int, countainRegions: Bool, laodStatus: DownloadStatus) {
         self.cellIndex = cellIndex
         self.countryName.text = country.capitalizingFirstLetter()
-        setLoadStatus(laodStatus)
+        setLoadColor(laodStatus)
         
         if countainRegions {
             setForwardButton()
@@ -39,12 +39,12 @@ class CountryTableViewCell: UITableViewCell {
     }
     
     @objc func tappedLoadMapView() {
-        setLoadStatus(.downloading)
+        setLoadColor(.downloading)
         self.loadMapView.isUserInteractionEnabled = false
         delegate?.didPressButtonForMap(self.cellIndex!)
     }
     
-    func setLoadStatus(_ status: DownloadStatus) {
+    func setLoadColor(_ status: DownloadStatus) {
         switch status {
         case .notAvailable:
             self.loadMapStatus.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)

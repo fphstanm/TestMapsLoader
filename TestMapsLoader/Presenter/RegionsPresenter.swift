@@ -12,25 +12,33 @@ import Alamofire
 class RegionsPresenter {
     
     let view: RegionsViewController
-    var regions: [Region] = []
-    let defaults = UserDefaults.standard
-    
+    var regions: [Region]
+
+    var countryName: String = ""
+    let dataStore = MapsInfo.shared
     
     init(view: RegionsViewController) {
         self.view = view
+        let index = self.view.countryIndex
+        self.regions = MapsInfo.shared.allRegions[0].countries![index!].regions!
     }
     
     func reloadTable() {
         self.view.reloadTable()
     }
     
-    func downloadMap(_ continent: Int, _ country: Int, _ region: Int?) {
+    func changeLoadStatus(countryIndex: Int, regionIndex: Int) {
+        MapsInfo.shared.changeLoadStatus(status: .downloading, countryIndex: countryIndex, regionIndex: regionIndex)
+    }
+
+    
+    func downloadMap(_ continent: Int, _ country: Int, _ region: Int) {
         var fileName: String
         let serverStartUrl: String = "http://download.osmand.net/download.php?standard=yes&file="
         
-        let continentName = self.regions[0].name
-        let countryName = self.regions[0].regions![country].name
-        let regionName = self.regions[0].regions![country].regions![region!].name
+        let continentName = MapsInfo.shared.allRegions[0].name
+        let countryName = MapsInfo.shared.allRegions[0].countries![country].name
+        let regionName = self.regions[region].name
         
         fileName = countryName.capitalizingFirstLetter() + "_" + regionName + "_" + continentName + "_2.obf.zip"
         
@@ -46,7 +54,8 @@ class RegionsPresenter {
             print("Download Progress: \(progress.fractionCompleted)")
         }
         .responseData { response in
-            self.regions[0].regions![country].regions![region!].loadStatus = .complete
+            self.regions[region].loadStatus = .complete
+            self.dataStore.changeLoadStatus(status: .complete, countryIndex: country, regionIndex: region) //????
             self.view.reloadTable()
         }
     }

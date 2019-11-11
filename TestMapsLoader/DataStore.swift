@@ -19,6 +19,11 @@ class MapsInfo {
         allRegions = [] //Or move to declaration?
     }
 
+    func getInfo() -> [Continent] {
+        let result = self.allRegions
+        return result
+    }
+    
     func setInfo(continents: [Continent]) {
         self.allRegions = continents
     }

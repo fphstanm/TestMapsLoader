@@ -18,9 +18,8 @@ class RegionsViewController: UIViewController,
     
     @IBOutlet weak var regionsTableView: UITableView!
 
-    var regions: [Region] = []
     var countryIndex: Int?
-    var presenter: CountriesPresenter?
+    lazy var presenter = RegionsPresenter(view: self)
 
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,13 +27,14 @@ class RegionsViewController: UIViewController,
         navigationController?.navigationBar.backItem?.title = ""    }
     
     override func viewDidLoad() {
-        let title = (self.presenter!.regions[0].regions![countryIndex!].name).capitalizingFirstLetter()
+        let title = (self.presenter.countryName).capitalizingFirstLetter()
         self.navigationItem.title = title
     }
     
     func didPressButtonForMap(_ cellIndex: Int) {
-        presenter!.downloadMap(0, countryIndex!, cellIndex)
-        presenter!.regions[0].regions![countryIndex!].regions![cellIndex].loadStatus = .downloading
+        presenter.downloadMap(0, countryIndex!, cellIndex)
+//        presenter.regions[cellIndex].loadStatus = .downloading
+        presenter.changeLoadStatus(countryIndex: countryIndex!, regionIndex: cellIndex)
     }
 
 }
@@ -47,17 +47,17 @@ extension RegionsViewController {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(regions.count)
-        return regions.count
+        return presenter.regions.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = regionsTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RegionTableViewCell
-        cell.setup(region: regions[indexPath.row].name,
+        cell.setup(region: presenter.regions[indexPath.row].name,
                    cellIndex: indexPath.row,
                    //FIXME: very bad implementation. Move it to presenter method
-                   loadStatus: presenter!.regions[0].regions![countryIndex!].regions![indexPath.row].loadStatus)
+                   loadStatus: presenter.regions[indexPath.row].loadStatus)
+
         cell.delegate = self
         return cell
     }

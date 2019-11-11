@@ -29,6 +29,15 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
         (_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: true)
         setTopBarsStyle()
+        
+        let service = MapsInfoService.shared //TODO run it only once move it to ???
+        if MapsInfo.shared.allRegions.isEmpty {
+            service.parseRegionsXML()
+        }
+        let diskSpace = service.getMemoryInfo()
+
+        freeMemoryLabel.text = "Free " + diskSpace[0] + " Gb"
+        progressBarMemory.progressValue = CGFloat(100 - (Float(diskSpace[0])! / Float(diskSpace[1])! * 100))
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -39,18 +48,12 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //TODO check does it work?
-        navigationController?.navigationBar.barTintColor = UIColor(hex: "#ff8800")
-        let diskSpace = presenter.getMemoryInfo()
-        freeMemoryLabel.text = "Free " + diskSpace[0] + " Gb"
-        progressBarMemory.progressValue = CGFloat(100 - (Float(diskSpace[0])! / Float(diskSpace[1])! * 100))
-        
-        presenter.parseRegionsXML()
+
     }
     
     func didPressButtonForMap(_ cellIndex: Int) {
-        presenter.downloadMap(0, cellIndex, nil)
-        presenter.regions[0].regions![cellIndex].loadStatus = .downloading
+        presenter.downloadMap(0, cellIndex)
+        presenter.changeLoadStatus(cellIndex)
     }
 }
 
@@ -62,27 +65,26 @@ extension CountriesTableViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let countriesQuantity = presenter.regions[0].regions?.count else { return 0 }
-        
-        return countriesQuantity
+        return presenter.countries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = countriesTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CountryTableViewCell
-        let containRegions: Bool = !(presenter.regions[0].regions![indexPath.row].regions!.isEmpty)
+        let containRegions: Bool = !(presenter.countries[indexPath.row].regions!.isEmpty) // Move to presenter
         
-        cell.setup(country: presenter.regions[0].regions![indexPath.row].name, cellIndex: indexPath.row, countainRegions: containRegions, laodStatus: presenter.regions[0].regions![indexPath.row].loadStatus) //TODO force unwrap
+        cell.setup(country: presenter.countries[indexPath.row].name,  // Move to presenter
+                   cellIndex: indexPath.row,
+                   countainRegions: containRegions,
+                   laodStatus: presenter.countries[indexPath.row].loadStatus)  // Move to presenter
         cell.delegate = self
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !(presenter.regions[0].regions![indexPath.row].regions!.isEmpty) {
+        if !(presenter.countries[indexPath.row].regions!.isEmpty) {  // Move to presenter
             let regionsViewController = storyboard!.instantiateViewController(withIdentifier: "Regions") as! RegionsViewController
-            regionsViewController.regions = presenter.regions[0].regions![indexPath.row].regions!
             regionsViewController.countryIndex = indexPath.row
-            regionsViewController.presenter = self.presenter
             self.navigationController!.pushViewController(regionsViewController, animated: true)
         }
     }

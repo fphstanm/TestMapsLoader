@@ -13,9 +13,12 @@ import Alamofire
 class CountriesPresenter {
     
     let view: CountriesTableViewController
+    let service = MapsInfoService.shared
+    let dataStore = MapsInfo.shared
     var downloadedFileUrl: URL?
-    var regions: [Region] = []
-    let defaults = UserDefaults.standard
+    lazy var countries: [Country] = MapsInfo.shared.allRegions[0].countries!
+    lazy var continentName: String = MapsInfo.shared.allRegions[0].name
+//    let defaults = UserDefaults.standard
         
 
     init(view: CountriesTableViewController) {
@@ -26,67 +29,19 @@ class CountriesPresenter {
         self.view.reloadTable()
     }
     
-    func getMemoryInfo() -> [String] {
-        let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
-        var totalAndAvailableMemory: [String] = []
-        do {
-            let values = try fileURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey, .volumeTotalCapacityKey])
-
-            if let capacity = values.volumeAvailableCapacityForImportantUsage, let total = values.volumeTotalCapacity {
-                var capacityStr = (String(capacity).dropLast(7))
-                capacityStr.insert(".", at: capacityStr.index(capacityStr.endIndex, offsetBy: -2))
-                var totalStr = String(total).dropLast(7)
-                totalStr.insert(".", at: totalStr.index(totalStr.endIndex, offsetBy: -2))
-                
-                totalAndAvailableMemory.append(contentsOf: [String(capacityStr),String(totalStr)])
-            }
-        } catch {
-            print("Error retrieving capacity: \(error.localizedDescription)")
-        }
-
-        return totalAndAvailableMemory
+    func changeLoadStatus(_ index: Int) {
+        dataStore.changeLoadStatus(status: .downloading, countryIndex: index)
     }
+
     
-    func parseRegionsXML() {
-        let xmlString = String().fileToString(name: "CountriesInfo", type: "xml")
-        let xml = try! XML.parse(xmlString)
-        let regionsList = xml.regions_list[0].region
-        
-        //TODO make it easier: add func
-        regionsList.forEach { continent in
-            let continentName = continent.first.attributes["name"]
-            let continentInfo = Region(name: continentName!, regions: [], loadStatus: .available)
-            regions.append(continentInfo)
-            let continentIndex = regions.count - 1
-            
-            continent.region.forEach { country in
-                let countryName = country.first.attributes["name"]
-                let countryInfo = Region(name: countryName!, regions: [], loadStatus: .available)
-                regions[continentIndex].regions?.append(countryInfo)
-                let countryIndex = regions[continentIndex].regions!.count - 1
-                
-                country.region.forEach { region in
-                    let regionName = region.first.attributes["name"]
-                    let area = Region(name: regionName!, regions: nil, loadStatus: .available) //TODO force unwrap
-                    regions[continentIndex].regions?[countryIndex].regions?.append(area)
-                }
-            }
-        }
-    }
-    
-    func downloadMap(_ continent: Int, _ country: Int, _ region: Int?) {
+    func downloadMap(_ continent: Int, _ country: Int) {
         var fileName: String
         let serverStartUrl: String = "http://download.osmand.net/download.php?standard=yes&file="
         
-        let continentName = self.regions[0].name
-        let countryName = self.regions[0].regions![country].name
+        let continentName = self.continentName
+        let countryName = self.countries[country].name
         
-        if let region = region {
-            let regionName = self.regions[0].regions![country].regions![region].name
-            fileName = countryName.capitalizingFirstLetter() + "_" + regionName + "_" + continentName + "_2.obf.zip"
-        } else {
-            fileName = countryName.capitalizingFirstLetter() + "_" + continentName + "_2.obf.zip"
-        }
+        fileName = countryName.capitalizingFirstLetter() + "_" + continentName + "_2.obf.zip"
         
         let destination: DownloadRequest.Destination = { _, _ in
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -101,16 +56,34 @@ class CountriesPresenter {
         }
         .responseData { response in
             self.downloadedFileUrl = response.fileURL
-
-            if let region = region {
-                self.regions[0].regions![country].regions![region].loadStatus = .complete
-                //TODO: How to reload data??
-             } else {
-                 self.regions[0].regions![country].loadStatus = .complete
-                 self.view.reloadTable()
-             }
+            self.countries[country].loadStatus = .complete
+            self.dataStore.changeLoadStatus(status: .complete, countryIndex: country) //???
+            self.view.reloadTable()
         }
     }
+}
+    
+    
+//    func getCountryName(_ index: Int) -> String {
+//        return self.countries![index].name
+//    }
+//
+//    func getCountryLoadStatus(_ index: Int) -> DownloadStatus {
+//        return self.mapsInfo[0].countries![index].loadStatus
+//    }
+//
+//    func getCountryRegionsQuantity(_ index: Int) -> Int {
+//        return self.mapsInfo[0].countries![index].regions!.count
+//    }
+//
+//    func getCountryRegions(_ index: Int) -> [Region] {
+//        return self.mapsInfo[0].countries![index].regions!
+//    }
+//
+//    func getCountriesQuantity() -> Int {
+//        return self.mapsInfo[0].countries!.count
+//    }
+    
     
     //Will be soon
     
@@ -130,5 +103,5 @@ class CountriesPresenter {
 //        }
 //    }
 
-}
+
 
