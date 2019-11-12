@@ -15,12 +15,6 @@ enum DownloadStatus: String, Codable {
     case complete
 }
 
-//struct Region: Codable {
-//    var name = ""
-//    var regions: [Region]?
-//    var loadStatus: DownloadStatus = .notAvailable
-//}
-
 
 struct Continent: Codable {
     var name = ""
@@ -38,6 +32,7 @@ struct Region: Codable {
     var name = ""
     var areas: [Area]?
     var loadStatus: DownloadStatus = .notAvailable
+    var progress: Double?
 }
 
 struct Area: Codable {

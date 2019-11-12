@@ -52,12 +52,12 @@ class RegionsPresenter {
         AF.download(serverStartUrl + fileName, to: destination)
         .downloadProgress { progress in
             //TODO mb DispachQueue .. async
-            //FIXME display status in particalar cell !
             print("progress: ", progress.fractionCompleted)
             if let mapCell = self.view.regionsTableView.cellForRow(at: IndexPath(row: region, section: 0)) as? RegionTableViewCell {
                 mapCell.updateDisplay(progress: (progress.fractionCompleted) * 100, totalSize: "100")
                 mapCell.progressBar.isHidden = false //FIXME isHidden
-            }        }
+            }
+        }
         .responseData { response in
             self.regions[region].loadStatus = .complete
             self.dataStore.changeLoadStatus(status: .complete, countryIndex: country, regionIndex: region) //????

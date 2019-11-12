@@ -183,22 +183,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "35D2F032-9C81-463A-88F6-D8A06E292FF6"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TestMapsLoader/Presenter/RegionsPresenter.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "init(view:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7A7155CE-EEF3-4AA0-AD88-C9D539F4AFE4"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -215,17 +199,141 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "999C27D7-72AE-43AA-9487-C344CDFEF009"
+            uuid = "AD3D07DC-338D-4FB5-825B-FE3362BF2B4A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TestMapsLoader/Presenter/RegionsPresenter.swift"
+            filePath = "TestMapsLoader/Controller/Cell/RegionTableViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "RegionsPresenter"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "RegionTableViewCell"
             landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AC5C1230-4B78-499A-8723-AA11B22CD34C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TestMapsLoader/Controller/Cell/RegionTableViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "setup(region:cellIndex:loadStatus:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CC23E7B7-F741-452D-9B45-587B2E58F542"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TestMapsLoader/Controller/Cell/RegionTableViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "RegionTableViewCell"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "CC23E7B7-F741-452D-9B45-587B2E58F542 - 6ebc1cea1a01988f"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TestMapsLoader.RegionTableViewCell.cellIndex.getter : Swift.Optional&lt;Swift.Int&gt;"
+                  moduleName = "TestMapsLoader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/a1/Documents/XCode/TestMapsLoader/TestMapsLoader/Controller/Cell/RegionTableViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "124">
+               </Location>
+               <Location
+                  uuid = "CC23E7B7-F741-452D-9B45-587B2E58F542 - 279f25997b382c9b"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TestMapsLoader.RegionTableViewCell.cellIndex.setter : Swift.Optional&lt;Swift.Int&gt;"
+                  moduleName = "TestMapsLoader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/a1/Documents/XCode/TestMapsLoader/TestMapsLoader/Controller/Cell/RegionTableViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "140">
+               </Location>
+               <Location
+                  uuid = "CC23E7B7-F741-452D-9B45-587B2E58F542 - bb3c0a98a29acb8a"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TestMapsLoader.RegionTableViewCell.cellIndex.modify : Swift.Optional&lt;Swift.Int&gt;"
+                  moduleName = "TestMapsLoader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/a1/Documents/XCode/TestMapsLoader/TestMapsLoader/Controller/Cell/RegionTableViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "18">
+               </Location>
+               <Location
+                  uuid = "CC23E7B7-F741-452D-9B45-587B2E58F542 - cb696a7c6abc4b92"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TestMapsLoader.RegionTableViewCell.cellIndex.modify : Swift.Optional&lt;Swift.Int&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "TestMapsLoader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/a1/Documents/XCode/TestMapsLoader/TestMapsLoader/Controller/Cell/RegionTableViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  uuid = "CC23E7B7-F741-452D-9B45-587B2E58F542 - def971a1338abd74"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TestMapsLoader.RegionTableViewCell.init(style: __C.UITableViewCellStyle, reuseIdentifier: Swift.Optional&lt;Swift.String&gt;) -&gt; TestMapsLoader.RegionTableViewCell"
+                  moduleName = "TestMapsLoader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/a1/Documents/XCode/TestMapsLoader/TestMapsLoader/Controller/Cell/RegionTableViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "684">
+               </Location>
+               <Location
+                  uuid = "CC23E7B7-F741-452D-9B45-587B2E58F542 - 3745fa8a5f531c02"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TestMapsLoader.RegionTableViewCell.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;TestMapsLoader.RegionTableViewCell&gt;"
+                  moduleName = "TestMapsLoader"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/a1/Documents/XCode/TestMapsLoader/TestMapsLoader/Controller/Cell/RegionTableViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "616">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
