@@ -40,3 +40,29 @@ final class ObservableImp: Observable {
         observers.forEach { $0.update(value: value) }
     }
 }
+
+//final class NewsAgency: Observer {
+//    var id = "newsAgency"
+//
+//    func update(value: Double?) {
+//        guard let value = value else { return }
+//        print("NewsAgency handles updated value: \(value)")
+//    }
+//}
+
+//let resource = NewsResource()
+//let newsAgency = NewsAgency()
+
+//
+//resource.add(observer: newsAgency)
+//
+//resource.value = 5
+//
+//resource.add(observer: blogger)
+//
+//resource.value = 7
+//
+//resource.remove(observer: reporter)
+//
+//resource.value = 11
+//resource.value = 15

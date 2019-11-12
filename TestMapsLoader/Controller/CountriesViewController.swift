@@ -30,11 +30,18 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
         navigationController?.setNavigationBarHidden(true, animated: true)
         setTopBarsStyle()
         
-        let service = MapsInfoService.shared //TODO run it only once move it to ???
-        if MapsInfo.shared.allRegions.isEmpty {
-            service.parseRegionsXML()
-        }
-        let diskSpace = service.getMemoryInfo()
+        //TODO appWillTerminate/Background
+//        if UserDefaults.standard.object(forKey: "MapsInfo") == nil {
+            if MapsInfo.shared.allRegions.isEmpty {
+                MapsInfoService.shared.parseRegionsXML()
+//                MapsInfoService.shared.saveRegionsInfo()
+            }
+//        } else {
+//            MapsInfoService.shared.readSavedRegionsInfo()
+//        }
+        
+
+        let diskSpace = MapsInfoService.shared.getMemoryInfo()
 
         freeMemoryLabel.text = "Free " + diskSpace[0] + " Gb"
         progressBarMemory.progressValue = CGFloat(100 - (Float(diskSpace[0])! / Float(diskSpace[1])! * 100))

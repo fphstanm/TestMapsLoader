@@ -15,7 +15,6 @@ class CountriesPresenter {
     let view: CountriesTableViewController
     let service = MapsInfoService.shared
     let dataStore = MapsInfo.shared
-    var downloadedFileUrl: URL?
     lazy var countries: [Country] = MapsInfo.shared.allRegions[0].countries!
     lazy var continentName: String = MapsInfo.shared.allRegions[0].name
 //    let defaults = UserDefaults.standard
@@ -60,7 +59,6 @@ class CountriesPresenter {
             }
         }
         .responseData { response in
-            self.downloadedFileUrl = response.fileURL
             self.countries[country].loadStatus = .complete
             self.dataStore.changeLoadStatus(status: .complete, countryIndex: country) //???
             self.view.reloadTable()

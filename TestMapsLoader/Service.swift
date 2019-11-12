@@ -78,7 +78,21 @@ class MapsInfoService {
          print(tempMaps.count)
      }
     
-    func saveMapsInfo() {
-        
+    // USER DEFAULTS
+    
+    func readSavedRegionsInfo() {
+        if let savedRegions = UserDefaults.standard.object(forKey: "MapsInfo") as? Data {
+            let decoder = JSONDecoder()
+            if let dataDecoded = try? decoder.decode([Continent].self, from: savedRegions) {
+                MapsInfo.shared.setInfo(continents: dataDecoded)
+            }
+        }
+    }
+
+    func saveRegionsInfo() {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(MapsInfo.shared.getInfo()) {
+            UserDefaults.standard.set(encoded, forKey: "MapsInfo")
+        }
     }
 }

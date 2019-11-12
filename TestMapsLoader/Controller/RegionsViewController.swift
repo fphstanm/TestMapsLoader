@@ -34,6 +34,7 @@ class RegionsViewController: UIViewController,
     func didPressButtonForMap(_ cellIndex: Int) {
         presenter.downloadMap(0, countryIndex!, cellIndex)
         presenter.regions[cellIndex].loadStatus = .downloading
+        
         presenter.changeLoadStatus(countryIndex: countryIndex!, regionIndex: cellIndex)
     }
 }
@@ -54,9 +55,7 @@ extension RegionsViewController {
         let cell = regionsTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RegionTableViewCell
         cell.setup(region: presenter.regions[indexPath.row].name,
                    cellIndex: indexPath.row,
-                   //FIXME: very bad implementation. Move it to presenter method
                    loadStatus: presenter.regions[indexPath.row].loadStatus)
-
         cell.delegate = self
         return cell
     }
