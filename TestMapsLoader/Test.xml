@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<regions_list>
+        <region type="continent" name="asia"/>
+        <region type="continent" name="europe"
+            translate="=Europe" inner_download_suffix="europe" boundary="no" poly_extract="europe">
+            <region name="estonia" lang="et" poly_extract="north-europe"/>
+            
+            <region name="denmark" lang="da" poly_extract="north-europe" inner_download_prefix="$name" join_map_files="yes">
+                <region type="map" name="capital-region" translate="name:en=Capital Region of Denmark;entity=relation"/>
+                <region type="map" name="central-region" translate="name:en=Central Denmark Region;entity=relation"/>
+                <region type="map" name="north-region" translate="name:en=North Denmark Region;entity=relation"/>
+                <region type="map" name="southern-region" translate="name:en=Region of Southern Denmark;entity=relation"/>
+                <region type="map" name="zealand-region" translate="name:en=Region Zealand;entity=relation"/>
+            </region>
+            
+            <region name="finland" inner_download_prefix="$name" srtm="no" lang="fi,sv" poly_extract="north-europe" join_map_files="yes">
+                <region map="yes" name="aland" translate="name:fi=Ahvenanmaa;admin_level=3;entity=relation"/>
+                <region map="yes" srtm="yes" hillshade="no" name="eastern-finland" translate="Eastern Finland;entity=relation"/>
+                <region name="northern-finland" map="yes" srtm="no" hillshade="no" wiki="no" translate="name:en=Northern Finland;entity=relation">
+                    <region type="srtm" name="lapland" translate="Lapland;entity=relation"/>
+                    <region type="srtm" name="northern-ostrobothnia" translate="name:en=Northern Ostrobothnia;entity=relation"/>
+                </region>
+                <region map="yes" srtm="yes" hillshade="no" name="southern-finland" translate="Southern Finland;entity=relation"/>
+                <region map="yes" srtm="yes" hillshade="no" name="western-finland" translate="Western Finland;entity=relation"/>
+            </region>
+        </region>
+        <region name="World_basemap" type="map" roads="no" wiki="no" boundary="no" translate="=World basemap"/>
+        <region name="World_seamarks" type="map" roads="no" wiki="no" boundary="no" translate="=World seamarks"/>
+</regions_list>

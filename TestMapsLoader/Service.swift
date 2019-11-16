@@ -9,12 +9,20 @@
 import Foundation
 import SwiftyXMLParser
 
-class MapsInfoService {
+class MapsInfoService: NSObject, XMLParserDelegate {
 
     static let shared = MapsInfoService()
+    
+    //Parsing temp vars
+    private var all: [Region] = []
+    private var continent: Region?
+    private var country: Region?
+    private var region: Region?
+    private var area: Region?
+    private var section: Region?
 
     
-    private init() {
+    override private init() {
         
     }
     
@@ -39,60 +47,79 @@ class MapsInfoService {
         return totalAndAvailableMemory
     }
     
-    func parseRegionsXML() {
-         let xmlString = String().fileToString(name: "CountriesInfo", type: "xml")
-         let xml = try! XML.parse(xmlString)
-         let regionsList = xml.regions_list[0].region
-         var tempMaps: [Continent] = []
-         
-         //TODO make it easier: add func
-         regionsList.forEach { continent in
-             let continentName = continent.first.attributes["name"]
-             let continentInfo = Continent(name: continentName!, countries: [], loadStatus: .available)
-             tempMaps.append(continentInfo)
-             let continentIndex = tempMaps.count - 1
-             
-             continent.region.forEach { country in
-                 let countryName = country.first.attributes["name"]
-                 let countryInfo = Country(name: countryName!, regions: [], loadStatus: .available)
-                 tempMaps[continentIndex].countries?.append(countryInfo)
-                 let countryIndex = tempMaps[continentIndex].countries!.count - 1
-                 
-                 country.region.forEach { regionInf in
-                     let regionName = regionInf.first.attributes["name"]
-                     let region = Region(name: regionName!, areas: [], loadStatus: .available) //TODO force unwrap
-                     tempMaps[continentIndex].countries?[countryIndex].regions?.append(region)
-                     let regionIndex = tempMaps[continentIndex].countries![countryIndex].regions!.count - 1
-                     
-                     regionInf.region.forEach { area in
-                         let areaName = area.first.attributes["name"]
-                         let area = Area(name: areaName!, loadStatus: .available)
-                         tempMaps[continentIndex].countries?[countryIndex].regions![regionIndex].areas!.append(area)
-                     }
-                 }
-             }
-         }
-         
-         let dataStore = MapsInfo.shared
-         dataStore.setInfo(continents: tempMaps)
-         print(tempMaps.count)
-     }
+    // ==== PARSING ====
     
-    // USER DEFAULTS
+    func parseRegionsXML(completionHandler: () -> Void) {
+        if let path = Bundle.main.url(forResource: "CountriesInfo", withExtension: "xml") {
+            if let parser = XMLParser(contentsOf: path) {
+                parser.delegate = self
+                let complete = parser.parse()
+                if complete {
+                    MapsInfo.shared.setInfo(continents: all)
+                    completionHandler()
+                }
+            }
+        } else {
+            debugPrint("wrong file name")
+        }
+    }
     
-    func readSavedRegionsInfo() {
-        if let savedRegions = UserDefaults.standard.object(forKey: "MapsInfo") as? Data {
-            let decoder = JSONDecoder()
-            if let dataDecoded = try? decoder.decode([Continent].self, from: savedRegions) {
-                MapsInfo.shared.setInfo(continents: dataDecoded)
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+        if elementName == "region" {
+            var tempRegion = Region()
+            if let name = attributeDict["name"] {
+                tempRegion.name = name
+            }
+            
+            if continent == nil {
+                continent = tempRegion
+            } else if country == nil {
+                country = tempRegion
+            } else if region == nil {
+                region = tempRegion
+            } else if area == nil {
+                area = tempRegion
+            } else if section == nil {
+                section = tempRegion
             }
         }
     }
 
-    func saveRegionsInfo() {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(MapsInfo.shared.getInfo()) {
-            UserDefaults.standard.set(encoded, forKey: "MapsInfo")
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        if elementName == "region" {
+            if section != nil {
+                self.area?.regions?.append(section!)
+                section = nil
+            } else if area != nil {
+                self.region?.regions?.append(area!)
+                area = nil
+            } else if region != nil {
+                self.country?.regions?.append(region!)
+                region = nil
+            } else if country != nil {
+                self.continent?.regions?.append(country!)
+                country = nil
+            } else if continent != nil {
+                self.all.append(continent!)
+                continent = nil
+            }
         }
     }
+    
+    //    func readSavedRegionsInfo() {
+    //        if let savedRegions = UserDefaults.standard.object(forKey: "MapsInfo") as? Data {
+    //            let decoder = JSONDecoder()
+    //            if let dataDecoded = try? decoder.decode([Region].self, from: savedRegions) {
+    //                MapsInfo.shared.setInfo(continents: dataDecoded)
+    //            }
+    //        }
+    //    }
+    //
+    //    func saveRegionsInfo() {
+    //        let encoder = JSONEncoder()
+    //        if let encoded = try? encoder.encode(MapsInfo.shared.getInfo()) {
+    //            UserDefaults.standard.set(encoded, forKey: "MapsInfo")
+    //        }
+    //    }
 }
+

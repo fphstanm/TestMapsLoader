@@ -12,31 +12,31 @@ class MapsInfo {
 
     static let shared = MapsInfo()
 
-    var allRegions: [Continent]
+    var allRegions: [Region]
 
     
     private init() {
         allRegions = [] //Or move to declaration?
     }
 
-    func getInfo() -> [Continent] {
+    func getInfo() -> [Region] {
         let result = self.allRegions
         return result
     }
     
-    func setInfo(continents: [Continent]) {
+    func setInfo(continents: [Region]) {
         self.allRegions = continents
     }
 
     func changeLoadStatus(status: DownloadStatus, countryIndex: Int) {
-        self.allRegions[0].countries![countryIndex].loadStatus = status
+        self.allRegions[0].regions![countryIndex].loadStatus = status
     }
 
     func changeLoadStatus(status: DownloadStatus, countryIndex: Int, regionIndex: Int) {
-        self.allRegions[0].countries![countryIndex].regions![regionIndex].loadStatus = status
+        self.allRegions[0].regions![countryIndex].regions![regionIndex].loadStatus = status
     }
 
     func changeLoadStatus(status: DownloadStatus, countryIndex: Int, regionIndex: Int, areaIndex: Int) {
-        self.allRegions[0].countries![countryIndex].regions![regionIndex].areas![areaIndex].loadStatus = status
+        self.allRegions[0].regions![countryIndex].regions![regionIndex].regions![areaIndex].loadStatus = status
     }
 }

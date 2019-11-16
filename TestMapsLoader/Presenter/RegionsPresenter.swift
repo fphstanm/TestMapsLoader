@@ -20,7 +20,7 @@ class RegionsPresenter {
     init(view: RegionsViewController) {
         self.view = view
         let index = self.view.countryIndex
-        self.regions = MapsInfo.shared.allRegions[0].countries![index!].regions!
+        self.regions = MapsInfo.shared.allRegions[0].regions![index!].regions!
     }
     
     func reloadTable() {
@@ -37,7 +37,7 @@ class RegionsPresenter {
         let serverStartUrl: String = "http://download.osmand.net/download.php?standard=yes&file="
         
         let continentName = MapsInfo.shared.allRegions[0].name
-        let countryName = MapsInfo.shared.allRegions[0].countries![country].name
+        let countryName = MapsInfo.shared.allRegions[0].regions![country].name
         let regionName = self.regions[region].name
         
         fileName = countryName.capitalizingFirstLetter() + "_" + regionName + "_" + continentName + "_2.obf.zip"

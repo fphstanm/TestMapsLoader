@@ -7,54 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "68306294-FFC4-4642-9A47-F93CA541779F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TestMapsLoader/Presenter/CountriesPresenter.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "CountriesPresenter"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "68306294-FFC4-4642-9A47-F93CA541779F - db4f84a3890364fe"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "TestMapsLoader.CountriesPresenter.continentName.getter : Swift.String"
-                  moduleName = "TestMapsLoader"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/a1/Documents/XCode/TestMapsLoader/TestMapsLoader/Presenter/CountriesPresenter.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "543">
-               </Location>
-               <Location
-                  uuid = "68306294-FFC4-4642-9A47-F93CA541779F - b7748b537738768a"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "TestMapsLoader.CountriesPresenter.continentName.setter : Swift.String"
-                  moduleName = "TestMapsLoader"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/a1/Documents/XCode/TestMapsLoader/TestMapsLoader/Presenter/CountriesPresenter.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "154">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "42D970DE-979D-42DC-9C6E-765894E543B9"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -62,8 +14,8 @@
             filePath = "TestMapsLoader/Presenter/CountriesPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "changeLoadStatus(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +30,8 @@
             filePath = "TestMapsLoader/Presenter/CountriesPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "changeLoadStatus(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -435,38 +387,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "875E25EE-8DB0-4536-ABF9-E2B723CCAB74"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TestMapsLoader/Controller/CountriesViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A0C0D2F0-7682-412E-BFC3-E868FDFE6849"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TestMapsLoader/Controller/CountriesViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "36C897F8-D3E3-42BF-BDAC-1428DE778631"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -509,6 +429,22 @@
             startingLineNumber = "29"
             endingLineNumber = "29"
             landmarkName = "setInfo(continents:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2706CF9C-4032-4681-BF38-801BC55B41CD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TestMapsLoader/Presenter/CountriesPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "parseMapsInfo()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

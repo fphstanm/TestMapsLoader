@@ -13,23 +13,45 @@ import Alamofire
 class CountriesPresenter {
     
     let view: CountriesTableViewController
-    let service = MapsInfoService.shared
-    let dataStore = MapsInfo.shared
-    lazy var countries: [Country] = MapsInfo.shared.allRegions[0].countries!
+    var countries: [Region] = []
     lazy var continentName: String = MapsInfo.shared.allRegions[0].name
 //    let defaults = UserDefaults.standard
         
 
     init(view: CountriesTableViewController) {
         self.view = view
+        if !(MapsInfo.shared.allRegions.isEmpty), let regions = MapsInfo.shared.allRegions[0].regions {
+            self.countries = regions
+        } else {
+            debugPrint("regions are empty")
+        }
     }
     
     func reloadCountriesTableView() {
         self.view.reloadTable()
+        print("reloaded")
     }
     
     func changeLoadStatus(_ index: Int) {
-        dataStore.changeLoadStatus(status: .downloading, countryIndex: index)
+        MapsInfo.shared.changeLoadStatus(status: .downloading, countryIndex: index)
+    }
+    
+    func parseMapsInfo() {
+                //TODO appWillTerminate/Background
+        //        if UserDefaults.standard.object(forKey: "MapsInfo") == nil {
+                    if MapsInfo.shared.allRegions.isEmpty {
+                        DispatchQueue.main.async {
+                            MapsInfoService.shared.parseRegionsXML() {
+                                self.countries = MapsInfo.shared.allRegions[0].regions!
+                                print("complete")
+                                self.reloadCountriesTableView()
+                            }
+                        }
+        //                MapsInfoService.shared.saveRegionsInfo()
+                    }
+        //        } else {
+        //            MapsInfoService.shared.readSavedRegionsInfo()
+        //        }
     }
 
     
@@ -60,7 +82,7 @@ class CountriesPresenter {
         }
         .responseData { response in
             self.countries[country].loadStatus = .complete
-            self.dataStore.changeLoadStatus(status: .complete, countryIndex: country) //???
+            MapsInfo.shared.changeLoadStatus(status: .complete, countryIndex: country) //???
             self.view.reloadTable()
         }
     }
@@ -86,25 +108,3 @@ class CountriesPresenter {
 //    func getCountriesQuantity() -> Int {
 //        return self.mapsInfo[0].countries!.count
 //    }
-    
-    
-    //Will be soon
-    
-//    func readSavedRegionsInfo() {
-//        if let savedRegions = self.defaults.object(forKey: "Regions") as? Data {
-//            let decoder = JSONDecoder()
-//            if let regionsDecoded = try? decoder.decode([Region].self, from: savedRegions) {
-//                self.regions = regionsDecoded
-//            }
-//        }
-//    }
-//
-//    func saveRegionsInfo() {
-//        let encoder = JSONEncoder()
-//        if let encoded = try? encoder.encode(self.regions) {
-//            self.defaults.set(encoded, forKey: "Regions")
-//        }
-//    }
-
-
-
