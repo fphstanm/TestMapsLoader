@@ -16,12 +16,11 @@ class CountriesPresenter {
     var countries: [Region] = []
     lazy var continentName: String = MapsInfo.shared.allRegions[0].name
 //    let defaults = UserDefaults.standard
-        
 
     init(view: CountriesTableViewController) {
         self.view = view
         if !(MapsInfo.shared.allRegions.isEmpty), let regions = MapsInfo.shared.allRegions[0].regions {
-            self.countries = regions
+            self.countries = regions //eto nenujno
         } else {
             debugPrint("regions are empty")
         }
@@ -52,6 +51,7 @@ class CountriesPresenter {
         //        } else {
         //            MapsInfoService.shared.readSavedRegionsInfo()
         //        }
+        // dumaju
     }
 
     

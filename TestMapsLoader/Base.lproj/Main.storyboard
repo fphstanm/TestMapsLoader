@@ -331,7 +331,7 @@
                                             <outlet property="loadMapIcon" destination="Y6c-Iu-pTa" id="FUr-aR-9Op"/>
                                             <outlet property="loadMapView" destination="pz6-Kv-T50" id="YYt-hi-gyM"/>
                                             <outlet property="mapIcon" destination="AgS-b7-9Hn" id="1ZV-i1-AKh"/>
-                                            <outlet property="progressBar" destination="X1W-pp-gQc" id="NvI-N9-5ug"/>
+                                            <outlet property="progressBar" destination="X1W-pp-gQc" id="NFJ-2C-tJI"/>
                                             <outlet property="regionName" destination="4Un-CI-AJa" id="nXp-dy-c5E"/>
                                         </connections>
                                     </tableViewCell>
@@ -381,7 +381,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OWi-yp-lgK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1706" y="107"/>
+            <point key="canvasLocation" x="1704.8" y="106.59670164917542"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="j6f-Vu-xBY">

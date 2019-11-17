@@ -10,6 +10,7 @@
 		51706B89F874AAB3B48408C6 /* Pods_TestMapsLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6319B517C83C1397E1AC0DB9 /* Pods_TestMapsLoader.framework */; };
 		EF0B96022370ED8A00FB27FA /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0B96012370ED8A00FB27FA /* Util.swift */; };
 		EF38FF5C237F030E00111521 /* Test.xml in Resources */ = {isa = PBXBuildFile; fileRef = EF38FF5B237F030E00111521 /* Test.xml */; };
+		EF38FF642380B8BF00111521 /* DownloaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF38FF632380B8BF00111521 /* DownloaderModel.swift */; };
 		EF696D1C2379DB130060D2E8 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF696D1B2379DB130060D2E8 /* Observer.swift */; };
 		EF6E400F2370608B0022C30C /* RegionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6E400E2370608B0022C30C /* RegionsViewController.swift */; };
 		EF6E40152370A3C40022C30C /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6E40142370A3C40022C30C /* RegionTableViewCell.swift */; };
@@ -35,6 +36,7 @@
 		ACCCAD6357D93F639B166C13 /* Pods-TestMapsLoader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestMapsLoader.debug.xcconfig"; path = "Target Support Files/Pods-TestMapsLoader/Pods-TestMapsLoader.debug.xcconfig"; sourceTree = "<group>"; };
 		EF0B96012370ED8A00FB27FA /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		EF38FF5B237F030E00111521 /* Test.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Test.xml; sourceTree = "<group>"; };
+		EF38FF632380B8BF00111521 /* DownloaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloaderModel.swift; sourceTree = "<group>"; };
 		EF696D1B2379DB130060D2E8 /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		EF6E400E2370608B0022C30C /* RegionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionsViewController.swift; sourceTree = "<group>"; };
 		EF6E40142370A3C40022C30C /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				EF6E4011237060F00022C30C /* Model */,
 				EF6E401223706F0E0022C30C /* Presenter */,
 				EFAE07C0237864F800127C66 /* Service.swift */,
+				EF38FF632380B8BF00111521 /* DownloaderModel.swift */,
 				EFAE07C22378657500127C66 /* DataStore.swift */,
 				EF0B96012370ED8A00FB27FA /* Util.swift */,
 				EF696D1B2379DB130060D2E8 /* Observer.swift */,
@@ -281,6 +284,7 @@
 			files = (
 				EFAE07C32378657500127C66 /* DataStore.swift in Sources */,
 				EF0B96022370ED8A00FB27FA /* Util.swift in Sources */,
+				EF38FF642380B8BF00111521 /* DownloaderModel.swift in Sources */,
 				EFAE07BF23784D1A00127C66 /* RegionsPresenter.swift in Sources */,
 				EF6E40152370A3C40022C30C /* RegionTableViewCell.swift in Sources */,
 				EFF3B7892368857000031570 /* AppDelegate.swift in Sources */,

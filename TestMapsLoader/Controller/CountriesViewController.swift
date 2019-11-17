@@ -23,6 +23,7 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
     @IBOutlet weak var freeMemoryLabel: UILabel!
     
     lazy var presenter = CountriesPresenter(view: self)
+    let model = DownloaderModel()
 
     
     override func viewWillAppear
@@ -83,6 +84,8 @@ extension CountriesTableViewController: UITableViewDataSource, UITableViewDelega
         if !(presenter.countries[indexPath.row].regions!.isEmpty) {  // Move to presenter
             let regionsViewController = storyboard!.instantiateViewController(withIdentifier: "Regions") as! RegionsViewController
             regionsViewController.countryIndex = indexPath.row
+            self.model.register(regionsViewController)
+            regionsViewController.model = self.model
             self.navigationController!.pushViewController(regionsViewController, animated: true)
         }
     }

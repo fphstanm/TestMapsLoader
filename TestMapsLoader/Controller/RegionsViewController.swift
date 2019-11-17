@@ -12,12 +12,11 @@ import Foundation
 import UIKit
 
 class RegionsViewController: UIViewController,
-                             UITableViewDataSource,
-                             UITableViewDelegate,
+                             
                              RegionCellDelegate {
     
     @IBOutlet weak var regionsTableView: UITableView!
-
+    var model: DownloaderModel?
     var countryIndex: Int?
     lazy var presenter = RegionsPresenter(view: self)
 
@@ -32,15 +31,27 @@ class RegionsViewController: UIViewController,
     }
     
     func didPressButtonForMap(_ cellIndex: Int) {
-        presenter.downloadMap(0, countryIndex!, cellIndex)
-        presenter.regions[cellIndex].loadStatus = .downloading
-        
-        presenter.changeLoadStatus(countryIndex: countryIndex!, regionIndex: cellIndex)
+//        presenter.downloadMap(0, countryIndex!, cellIndex)
+        self.model?.downloadMap(0, countryIndex!, cellIndex)
     }
 }
 
+extension RegionsViewController: DownloaderModelDataSource, DownloaderModelDelegate {
+    func getCountryIndex() -> Int {
+        self.countryIndex!
+    }
+    
+    func updateProgress(progress: Double, index: Int) {
+        if let mapCell = self.regionsTableView.cellForRow(at: IndexPath(row: index, section: 0)) as? RegionTableViewCell {
+                    mapCell.updateDisplay(progress: progress * 100, totalSize: "100")
+                    mapCell.progressBar.isHidden = false //FIXME isHidden
+                }
+    }
+    
+}
 
-extension RegionsViewController {
+
+extension RegionsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1

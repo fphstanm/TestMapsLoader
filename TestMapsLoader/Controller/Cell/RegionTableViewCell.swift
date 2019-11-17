@@ -22,6 +22,11 @@ class RegionTableViewCell: UITableViewCell {
     @IBOutlet weak var loadMapIcon: UIImageView!
     @IBOutlet weak var progressBar: LinearProgressBar!
     
+    func updateDisplay(progress: Double, totalSize: String) {
+        progressBar.progressValue = CGFloat(progress)
+        print("cell progress: ", progressBar.progressValue)
+    }
+    
     var cellIndex: Int?
     var delegate: RegionCellDelegate?
     
@@ -53,9 +58,7 @@ class RegionTableViewCell: UITableViewCell {
         delegate?.didPressButtonForMap(self.cellIndex!)
     }
     
-    func updateDisplay(progress: Double, totalSize: String) {
-        progressBar.progressValue = CGFloat(progress)
-    }
+
     
     func setLoadColor(_ status: DownloadStatus) {
         switch status {
