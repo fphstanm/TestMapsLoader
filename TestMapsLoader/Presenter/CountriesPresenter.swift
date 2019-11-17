@@ -15,7 +15,6 @@ class CountriesPresenter {
     let view: CountriesTableViewController
     var countries: [Region] = []
     lazy var continentName: String = MapsInfo.shared.allRegions[0].name
-//    let defaults = UserDefaults.standard
 
     init(view: CountriesTableViewController) {
         self.view = view

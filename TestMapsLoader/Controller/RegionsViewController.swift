@@ -30,7 +30,7 @@ class RegionsViewController: UIViewController,
         self.navigationItem.title = title
     }
     
-    func didPressButtonForMap(_ cellIndex: Int) {
+    func onMapButtonPressed(_ cellIndex: Int) {
 //        presenter.downloadMap(0, countryIndex!, cellIndex)
         self.model?.downloadMap(0, countryIndex!, cellIndex)
     }

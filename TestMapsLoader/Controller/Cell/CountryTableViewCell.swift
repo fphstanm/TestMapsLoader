@@ -11,7 +11,7 @@ import UIKit
 import LinearProgressBar
 
 protocol CountryTableViewCellDelegate {
-    func didPressButtonForMap(_ cellIndex: Int)
+    func onMapButtonPressed(_ cellIndex: Int)
 }
 
 class CountryTableViewCell: UITableViewCell {
@@ -52,7 +52,7 @@ class CountryTableViewCell: UITableViewCell {
         setLoadColor(.downloading)
         self.progressBar.isHidden = false // FIXME isHidden
         self.loadMapView.isUserInteractionEnabled = false
-        delegate?.didPressButtonForMap(self.cellIndex!)
+        delegate?.onMapButtonPressed(self.cellIndex!)
     }
     
     func updateDisplay(progress: Double, totalSize: String) {

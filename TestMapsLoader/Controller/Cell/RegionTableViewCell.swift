@@ -11,7 +11,7 @@ import UIKit
 import LinearProgressBar
 
 protocol RegionCellDelegate {
-    func didPressButtonForMap(_ cellIndex: Int)
+    func onMapButtonPressed(_ cellIndex: Int)
 }
 
 class RegionTableViewCell: UITableViewCell {
@@ -55,10 +55,8 @@ class RegionTableViewCell: UITableViewCell {
         self.setLoadColor(.downloading)
         self.progressBar.isHidden = false // FIXME isHidden
         self.loadMapView.isUserInteractionEnabled = false
-        delegate?.didPressButtonForMap(self.cellIndex!)
+        delegate?.onMapButtonPressed(self.cellIndex!)
     }
-    
-
     
     func setLoadColor(_ status: DownloadStatus) {
         switch status {

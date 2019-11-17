@@ -67,6 +67,6 @@ class DownloaderModel {
         .responseData { response in
 //            self.dataStore.allRegions[0].regions![country].regions![region].loadStatus = .complete
             self.dataStore.changeLoadStatus(status: .complete, countryIndex: country, regionIndex: region) //????
-            //               self.delegate?.reloadTable()
+//               self.delegate?.reloadTable()
         }
     }}
