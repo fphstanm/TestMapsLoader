@@ -45,8 +45,6 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
     }
     
     func onMapButtonPressed(_ cellIndex: Int) {
@@ -84,6 +82,8 @@ extension CountriesTableViewController: UITableViewDataSource, UITableViewDelega
         if !(presenter.countries[indexPath.row].regions!.isEmpty) {  // Move to presenter
             let regionsViewController = storyboard!.instantiateViewController(withIdentifier: "Regions") as! RegionsViewController
             regionsViewController.countryIndex = indexPath.row
+            regionsViewController.regionIndices.append(indexPath.row)
+            print(regionsViewController.regionIndices)
             self.model.register(regionsViewController)
             regionsViewController.model = self.model
             self.navigationController!.pushViewController(regionsViewController, animated: true)

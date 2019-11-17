@@ -86,24 +86,3 @@ class CountriesPresenter {
         }
     }
 }
-    
-    
-//    func getCountryName(_ index: Int) -> String {
-//        return self.countries![index].name
-//    }
-//
-//    func getCountryLoadStatus(_ index: Int) -> DownloadStatus {
-//        return self.mapsInfo[0].countries![index].loadStatus
-//    }
-//
-//    func getCountryRegionsQuantity(_ index: Int) -> Int {
-//        return self.mapsInfo[0].countries![index].regions!.count
-//    }
-//
-//    func getCountryRegions(_ index: Int) -> [Region] {
-//        return self.mapsInfo[0].countries![index].regions!
-//    }
-//
-//    func getCountriesQuantity() -> Int {
-//        return self.mapsInfo[0].countries!.count
-//    }

@@ -36,19 +36,34 @@ class RegionTableViewCell: UITableViewCell {
         progressBar.isHidden = true
     }
     
-    func setup(region: String, cellIndex: Int, loadStatus: DownloadStatus) {
+    func setup(region: String, cellIndex: Int, loadStatus: DownloadStatus, countainRegions: Bool) {
         self.cellIndex = cellIndex
         self.regionName.text = region.capitalizingFirstLetter()
         setLoadColor(loadStatus)
 
-        let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedLoadMapView))
-        loadRecognizer.delegate = self
-        self.loadMapView.addGestureRecognizer(loadRecognizer)
-        self.loadMapView.isUserInteractionEnabled = true
+        if countainRegions {
+            setForwardButton()
+        } else {
+            setLoadButton()
+        }
         
         if loadStatus == .downloading {
             self.progressBar.isHidden = false
         }
+    }
+    
+    func setLoadButton() {
+        self.loadMapIcon.image = UIImage(named: "ic_custom_import")
+        let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedLoadMapView))
+        loadRecognizer.delegate = self
+        
+        self.loadMapView.addGestureRecognizer(loadRecognizer)
+        self.loadMapView.isUserInteractionEnabled = true
+    }
+    
+    func setForwardButton() {
+        self.loadMapIcon.image = UIImage(named: "ic_custom_forward")
+        self.loadMapView.isUserInteractionEnabled = false
     }
     
     @objc func tappedLoadMapView() {

@@ -12,15 +12,21 @@ import Alamofire
 class RegionsPresenter {
     
     let view: RegionsViewController
-    var regions: [Region]
+    var regions: [Region] = MapsInfo.shared.allRegions[0].regions!
 
     var countryName: String = ""
     let dataStore = MapsInfo.shared
     
     init(view: RegionsViewController) {
         self.view = view
-        let index = self.view.countryIndex
-        self.regions = MapsInfo.shared.allRegions[0].regions![index!].regions!
+//        let index = self.view.countryIndex
+//        self.regions = MapsInfo.shared.allRegions[0].regions![index!].regions!
+        var tempRegions = MapsInfo.shared.allRegions[0].regions!
+        for i in self.view.regionIndices {
+            tempRegions = tempRegions[i].regions!
+            print("i: ", i)
+        }
+        self.regions = tempRegions
     }
     
     func reloadTable() {
