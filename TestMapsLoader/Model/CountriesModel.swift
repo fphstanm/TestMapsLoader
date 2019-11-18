@@ -19,5 +19,4 @@ struct Region: Codable {
     var name = ""
     var regions: [Region]? = []
     var loadStatus: DownloadStatus = .notAvailable
-//    var progress: Double?
 }

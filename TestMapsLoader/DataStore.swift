@@ -27,16 +27,21 @@ class MapsInfo {
     func setInfo(continents: [Region]) {
         self.allRegions = continents
     }
-
-    func changeLoadStatus(status: DownloadStatus, countryIndex: Int) {
-        self.allRegions[0].regions![countryIndex].loadStatus = status
+    
+    //TODO: write func with [index]
+    func changeLoadStatus(status: DownloadStatus, regionsIndexPath: [Int]) {
+        let i = regionsIndexPath
+        
+        switch regionsIndexPath.count {
+        case 2: //country
+            self.allRegions[i[0]].regions![i[1]].loadStatus = status
+        case 3: //region
+            self.allRegions[i[0]].regions![i[1]].regions![i[2]].loadStatus = status
+        case 4: //area
+            self.allRegions[i[0]].regions![i[1]].regions![i[2]].regions![i[3]].loadStatus = status
+        default: //section
+            self.allRegions[i[0]].regions![i[1]].regions![i[2]].regions![i[3]].regions![i[4]].loadStatus = status
+        }
     }
 
-    func changeLoadStatus(status: DownloadStatus, countryIndex: Int, regionIndex: Int) {
-        self.allRegions[0].regions![countryIndex].regions![regionIndex].loadStatus = status
-    }
-
-    func changeLoadStatus(status: DownloadStatus, countryIndex: Int, regionIndex: Int, areaIndex: Int) {
-        self.allRegions[0].regions![countryIndex].regions![regionIndex].regions![areaIndex].loadStatus = status
-    }
 }

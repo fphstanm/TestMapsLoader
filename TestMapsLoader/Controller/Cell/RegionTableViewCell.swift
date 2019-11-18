@@ -24,7 +24,6 @@ class RegionTableViewCell: UITableViewCell {
     
     func updateDisplay(progress: Double, totalSize: String) {
         progressBar.progressValue = CGFloat(progress)
-        print("cell progress: ", progressBar.progressValue)
     }
     
     var cellIndex: Int?

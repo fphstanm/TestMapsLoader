@@ -12,19 +12,17 @@ import Alamofire
 class RegionsPresenter {
     
     let view: RegionsViewController
-    var regions: [Region] = MapsInfo.shared.allRegions[0].regions!
+    var regions: [Region]
 
     var countryName: String = ""
     let dataStore = MapsInfo.shared
     
     init(view: RegionsViewController) {
         self.view = view
-//        let index = self.view.countryIndex
-//        self.regions = MapsInfo.shared.allRegions[0].regions![index!].regions!
-        var tempRegions = MapsInfo.shared.allRegions[0].regions!
-        for i in self.view.regionIndices {
+
+        var tempRegions = MapsInfo.shared.allRegions
+        for i in self.view.regionIndexPath {
             tempRegions = tempRegions[i].regions!
-            print("i: ", i)
         }
         self.regions = tempRegions
     }
@@ -34,42 +32,11 @@ class RegionsPresenter {
     }
     
     func changeLoadStatus(countryIndex: Int, regionIndex: Int) {
-        MapsInfo.shared.changeLoadStatus(status: .downloading, countryIndex: countryIndex, regionIndex: regionIndex)
+        var path = view.regionIndexPath
+        path.append(regionIndex)
+        print(path)
+        MapsInfo.shared.changeLoadStatus(status: .downloading, regionsIndexPath: path)
     }
-
-    
-    func downloadMap(_ continent: Int, _ country: Int, _ region: Int) {
-        var fileName: String
-        let serverStartUrl: String = "http://download.osmand.net/download.php?standard=yes&file="
-        
-        let continentName = MapsInfo.shared.allRegions[0].name
-        let countryName = MapsInfo.shared.allRegions[0].regions![country].name
-        let regionName = self.regions[region].name
-        
-        fileName = countryName.capitalizingFirstLetter() + "_" + regionName + "_" + continentName + "_2.obf.zip"
-        
-        let destination: DownloadRequest.Destination = { _, _ in
-            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let fileURL = documentsURL.appendingPathComponent(fileName)
-            print("fileUrl: ",fileURL)
-            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-        }
-        
-        AF.download(serverStartUrl + fileName, to: destination)
-        .downloadProgress { progress in
-            //TODO mb DispachQueue .. async
-            if let mapCell = self.view.regionsTableView.cellForRow(at: IndexPath(row: region, section: 0)) as? RegionTableViewCell {
-                mapCell.updateDisplay(progress: (progress.fractionCompleted) * 100, totalSize: "100")
-                mapCell.progressBar.isHidden = false //FIXME isHidden
-            }
-        }
-        .responseData { response in
-            self.regions[region].loadStatus = .complete
-            self.dataStore.changeLoadStatus(status: .complete, countryIndex: country, regionIndex: region) //????
-            self.view.reloadTable()
-        }
-    }
-    
 }
 
 

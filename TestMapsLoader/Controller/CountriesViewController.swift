@@ -25,6 +25,8 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
     lazy var presenter = CountriesPresenter(view: self)
     let model = DownloaderModel()
 
+    var continentIndex = 0 //If continents were available, you would write method to get the current continent
+    
     
     override func viewWillAppear
         (_ animated: Bool) {
@@ -48,9 +50,13 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
     }
     
     func onMapButtonPressed(_ cellIndex: Int) {
-        presenter.downloadMap(0, cellIndex)
-        presenter.changeLoadStatus(cellIndex)
-        presenter.countries[cellIndex].loadStatus = .downloading
+        var indexPathForMap = [continentIndex]
+        indexPathForMap.append(cellIndex)
+        self.model.downloadMap(indexPathForMap)
+        //TODO
+//        presenter.downloadMap(0, cellIndex)
+//        presenter.changeLoadStatus(cellIndex)
+//        presenter.countries[cellIndex].loadStatus = .downloading
     }
 }
 
@@ -81,9 +87,11 @@ extension CountriesTableViewController: UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if !(presenter.countries[indexPath.row].regions!.isEmpty) {  // Move to presenter
             let regionsViewController = storyboard!.instantiateViewController(withIdentifier: "Regions") as! RegionsViewController
-            regionsViewController.countryIndex = indexPath.row
-            regionsViewController.regionIndices.append(indexPath.row)
-            print(regionsViewController.regionIndices)
+
+            var countryIndexPath: [Int] = [continentIndex]
+            countryIndexPath.append(indexPath.row)
+            regionsViewController.regionIndexPath = countryIndexPath
+            
             self.model.register(regionsViewController)
             regionsViewController.model = self.model
             self.navigationController!.pushViewController(regionsViewController, animated: true)
