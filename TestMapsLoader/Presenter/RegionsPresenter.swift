@@ -38,32 +38,3 @@ class RegionsPresenter {
         MapsInfo.shared.changeLoadStatus(status: .downloading, regionsIndexPath: path)
     }
 }
-
-
-
-//        let indexPath = IndexPath(item: country, section: 0)
-//        self.countriesTableView.beginUpdates()
-//        self.countriesTableView.reloadRows(at: [indexPath], with: .automatic)
-//        self.countriesTableView.endUpdates()
-
-// // put it to cell
-//func showProgress(){
-//    print("   DateCell showProgress") // this does get printed
-//    self.setNeedsDisplay()
-//}
-
-//NotificationCenter.default.addObserver(self, selector: #selector(saveData), name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
-
-//extension DownloadStatus {
-//
-//    private enum CodingKeys: String, CodingKey {
-//        case notAvailable = "notAvailable"
-//        case available = "available"
-//        case downloading = "downloading"
-//        case complete = "complete"
-//    }
-//
-//    enum PostTypeCodingError: Error {
-//        case decoding(String)
-//    }
-//}

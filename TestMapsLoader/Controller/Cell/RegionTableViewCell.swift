@@ -22,12 +22,9 @@ class RegionTableViewCell: UITableViewCell {
     @IBOutlet weak var loadMapIcon: UIImageView!
     @IBOutlet weak var progressBar: LinearProgressBar!
     
-    func updateDisplay(progress: Double, totalSize: String) {
-        progressBar.progressValue = CGFloat(progress)
-    }
-    
     var cellIndex: Int?
     var delegate: RegionCellDelegate?
+    
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -51,28 +48,32 @@ class RegionTableViewCell: UITableViewCell {
         }
     }
     
-    func setLoadButton() {
-        self.loadMapIcon.image = UIImage(named: "ic_custom_import")
-        let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedLoadMapView))
-        loadRecognizer.delegate = self
-        
-        self.loadMapView.addGestureRecognizer(loadRecognizer)
-        self.loadMapView.isUserInteractionEnabled = true
+    func updateDisplay(progress: Double, totalSize: String) {
+        progressBar.progressValue = CGFloat(progress)
     }
     
-    func setForwardButton() {
-        self.loadMapIcon.image = UIImage(named: "ic_custom_forward")
-        self.loadMapView.isUserInteractionEnabled = false
-    }
-    
-    @objc func tappedLoadMapView() {
+    @objc func onLoadMapViewPressed() {
         self.setLoadColor(.downloading)
         self.progressBar.isHidden = false // FIXME isHidden
         self.loadMapView.isUserInteractionEnabled = false
         delegate?.onMapButtonPressed(self.cellIndex!)
     }
     
-    func setLoadColor(_ status: DownloadStatus) {
+    private func setLoadButton() {
+        self.loadMapIcon.image = UIImage(named: "ic_custom_import")
+        let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(onLoadMapViewPressed))
+        loadRecognizer.delegate = self
+        
+        self.loadMapView.addGestureRecognizer(loadRecognizer)
+        self.loadMapView.isUserInteractionEnabled = true
+    }
+    
+    private func setForwardButton() {
+        self.loadMapIcon.image = UIImage(named: "ic_custom_forward")
+        self.loadMapView.isUserInteractionEnabled = false
+    }
+    
+    private func setLoadColor(_ status: DownloadStatus) {
         switch status {
         case .notAvailable:
             self.loadMapIcon.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
@@ -84,6 +85,7 @@ class RegionTableViewCell: UITableViewCell {
             self.loadMapIcon.tintColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         }
     }
+    
     
 
 }

@@ -17,6 +17,7 @@
 		EFAE07BF23784D1A00127C66 /* RegionsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAE07BE23784D1A00127C66 /* RegionsPresenter.swift */; };
 		EFAE07C1237864F800127C66 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAE07C0237864F800127C66 /* Service.swift */; };
 		EFAE07C32378657500127C66 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAE07C22378657500127C66 /* DataStore.swift */; };
+		EFE5778723842A9D00B4742B /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE5778623842A9C00B4742B /* Parser.swift */; };
 		EFF3B7892368857000031570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF3B7882368857000031570 /* AppDelegate.swift */; };
 		EFF3B78B2368857000031570 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF3B78A2368857000031570 /* SceneDelegate.swift */; };
 		EFF3B7902368857000031570 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFF3B78E2368857000031570 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 		EFAE07BE23784D1A00127C66 /* RegionsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionsPresenter.swift; sourceTree = "<group>"; };
 		EFAE07C0237864F800127C66 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		EFAE07C22378657500127C66 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		EFE5778623842A9C00B4742B /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		EFF3B7852368857000031570 /* TestMapsLoader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestMapsLoader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF3B7882368857000031570 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFF3B78A2368857000031570 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				EF6E401223706F0E0022C30C /* Presenter */,
 				EFAE07C0237864F800127C66 /* Service.swift */,
 				EF38FF632380B8BF00111521 /* DownloaderModel.swift */,
+				EFE5778623842A9C00B4742B /* Parser.swift */,
 				EFAE07C22378657500127C66 /* DataStore.swift */,
 				EF0B96012370ED8A00FB27FA /* Util.swift */,
 				EF696D1B2379DB130060D2E8 /* Observer.swift */,
@@ -286,6 +289,7 @@
 				EF0B96022370ED8A00FB27FA /* Util.swift in Sources */,
 				EF38FF642380B8BF00111521 /* DownloaderModel.swift in Sources */,
 				EFAE07BF23784D1A00127C66 /* RegionsPresenter.swift in Sources */,
+				EFE5778723842A9D00B4742B /* Parser.swift in Sources */,
 				EF6E40152370A3C40022C30C /* RegionTableViewCell.swift in Sources */,
 				EFF3B7892368857000031570 /* AppDelegate.swift in Sources */,
 				EF696D1C2379DB130060D2E8 /* Observer.swift in Sources */,
@@ -372,7 +376,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -426,7 +430,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

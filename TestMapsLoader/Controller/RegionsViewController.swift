@@ -38,13 +38,7 @@ class RegionsViewController: UIViewController,
     }
 }
 
-extension RegionsViewController: DownloaderModelDataSource, DownloaderModelDelegate {
-    func getCountryIndex() -> Int {
-        
-        //FIXME what to return?????
-//        self.countryIndex!
-        return self.regionIndexPath[1]
-    }
+extension RegionsViewController: DownloaderModelDelegate {
     
     func idGenerator(_ indices: [Int]) -> String {
         var viewControllerID = ""
@@ -66,7 +60,6 @@ extension RegionsViewController: DownloaderModelDataSource, DownloaderModelDeleg
             }
         }
     }
-    
 }
 
 
@@ -99,8 +92,8 @@ extension RegionsViewController: UITableViewDataSource, UITableViewDelegate {
             
             regionsViewController.regionIndexPath.append(contentsOf: self.regionIndexPath)
             regionsViewController.regionIndexPath.append(indexPath.row)
-            self.model!.register(regionsViewController)
-            regionsViewController.model = self.model
+            self.model!.register(regionsViewController) //maybe move it to regionsViewCotroller init?
+            regionsViewController.model = self.model //maybe move it to regionsViewCotroller init?
             self.navigationController!.pushViewController(regionsViewController, animated: true)
         }
     }

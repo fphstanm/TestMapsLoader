@@ -12,11 +12,10 @@ class MapsInfo {
 
     static let shared = MapsInfo()
 
-    var allRegions: [Region]
+    var allRegions: [Region] = []
 
     
     private init() {
-        allRegions = [] //Or move to declaration?
     }
 
     func getInfo() -> [Region] {

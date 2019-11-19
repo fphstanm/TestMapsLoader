@@ -48,18 +48,19 @@ class CountryTableViewCell: UITableViewCell {
         }
     }
     
-    @objc func tappedLoadMapView() {
+    func updateDisplay(progress: Double, totalSize: String) {
+        progressBar.progressValue = CGFloat(progress)
+    }
+    
+    @objc func onLoadMapViewPressed() {
         setLoadColor(.downloading)
         self.progressBar.isHidden = false // FIXME isHidden
         self.loadMapView.isUserInteractionEnabled = false
         delegate?.onMapButtonPressed(self.cellIndex!)
     }
     
-    func updateDisplay(progress: Double, totalSize: String) {
-        progressBar.progressValue = CGFloat(progress)
-    }
     
-    func setLoadColor(_ status: DownloadStatus) {
+    private func setLoadColor(_ status: DownloadStatus) {
         switch status {
         case .notAvailable:
             self.loadMapIcon.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
@@ -72,16 +73,16 @@ class CountryTableViewCell: UITableViewCell {
         }
     }
     
-    func setLoadButton() {
+    private func setLoadButton() {
         self.loadMapIcon.image = UIImage(named: "ic_custom_import")
-        let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedLoadMapView))
+        let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(onLoadMapViewPressed))
         loadRecognizer.delegate = self
         
         self.loadMapView.addGestureRecognizer(loadRecognizer)
         self.loadMapView.isUserInteractionEnabled = true
     }
     
-    func setForwardButton() {
+    private func setForwardButton() {
         self.loadMapIcon.image = UIImage(named: "ic_custom_forward")
         self.loadMapView.isUserInteractionEnabled = false
     }

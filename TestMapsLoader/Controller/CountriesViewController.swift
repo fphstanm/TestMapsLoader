@@ -32,12 +32,8 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
         (_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: true)
         setTopBarsStyle()
-        
-        presenter.parseMapsInfo()
-        
-        let diskSpace = MapsInfoService.shared.getMemoryInfo()
-        freeMemoryLabel.text = "Free " + diskSpace[0] + " Gb"
-        progressBarMemory.progressValue = CGFloat(100 - (Float(diskSpace[0])! / Float(diskSpace[1])! * 100))
+        presenter.getMapsInfo()
+        setDiskSpace()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,19 +43,45 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.model.register(self as! CountriesTableViewController) //TODO make unregister
     }
     
     func onMapButtonPressed(_ cellIndex: Int) {
         var indexPathForMap = [continentIndex]
         indexPathForMap.append(cellIndex)
         self.model.downloadMap(indexPathForMap)
-        //TODO
-//        presenter.downloadMap(0, cellIndex)
-//        presenter.changeLoadStatus(cellIndex)
-//        presenter.countries[cellIndex].loadStatus = .downloading
+    }
+    
+    private func setDiskSpace() {
+        let diskSpace = MapsInfoService.shared.getMemoryInfo()
+        freeMemoryLabel.text = "Free " + diskSpace[0] + " Gb"
+        progressBarMemory.progressValue = CGFloat(100 - (Float(diskSpace[0])! / Float(diskSpace[1])! * 100))
     }
 }
 
+extension CountriesTableViewController: DownloaderModelDelegate {
+    
+    private func generateID(_ indices: [Int]) -> String {
+        var viewControllerID = ""
+        
+        for i in indices {
+            let sequance = String(i) + "_"
+            viewControllerID.append(sequance)
+        }
+        return viewControllerID
+    }
+    
+    func updateProgress(progress: Double, index: Int, viewControllerID: String) {
+        let id = generateID([continentIndex])
+        
+        if id == viewControllerID {
+            if let mapCell = self.countriesTableView.cellForRow(at: IndexPath(row: index, section: 0)) as? CountryTableViewCell {
+                mapCell.updateDisplay(progress: progress * 100, totalSize: "100")
+                mapCell.progressBar.isHidden = false //FIXME isHidden
+            }
+        }
+    }
+}
 
 extension CountriesTableViewController: UITableViewDataSource, UITableViewDelegate, CountriesView {
     
@@ -91,9 +113,8 @@ extension CountriesTableViewController: UITableViewDataSource, UITableViewDelega
             var countryIndexPath: [Int] = [continentIndex]
             countryIndexPath.append(indexPath.row)
             regionsViewController.regionIndexPath = countryIndexPath
-            
-            self.model.register(regionsViewController)
-            regionsViewController.model = self.model
+            self.model.register(regionsViewController) //maybe move it to regionsViewCotroller init?
+            regionsViewController.model = self.model //maybe move it to regionsViewCotroller init?
             self.navigationController!.pushViewController(regionsViewController, animated: true)
         }
     }
@@ -102,4 +123,5 @@ extension CountriesTableViewController: UITableViewDataSource, UITableViewDelega
         self.countriesTableView.reloadData()
     }
 }
+
 

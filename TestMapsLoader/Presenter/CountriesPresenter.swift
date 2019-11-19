@@ -10,18 +10,22 @@ import Foundation
 import SwiftyXMLParser
 import Alamofire
 
-class CountriesPresenter {
+class CountriesPresenter: Observer {
     
+    var id = "CountriesPresenter" //Observer stuff
+
     let view: CountriesTableViewController
     var countries: [Region] = []
     lazy var continentName: String = MapsInfo.shared.allRegions[view.continentIndex].name
 
+    
     init(view: CountriesTableViewController) {
         self.view = view
+        XMLParserForRegions.shared.add(observer: self)
     }
     
-    func reloadCountriesTableView() {
-        self.view.reloadTable()
+    func update(value: Bool?) { //Observer stuff
+        getMapsInfo()
     }
     
     func changeLoadStatus(_ index: Int) {
@@ -30,22 +34,10 @@ class CountriesPresenter {
         MapsInfo.shared.changeLoadStatus(status: .downloading, regionsIndexPath: path)
     }
     
-    func parseMapsInfo() {
-                //TODO appWillTerminate/Background
-        //        if UserDefaults.standard.object(forKey: "MapsInfo") == nil {
-                    if MapsInfo.shared.allRegions.isEmpty {
-                        DispatchQueue.main.async {
-                            MapsInfoService.shared.parseRegionsXML() {
-                                self.countries = MapsInfo.shared.allRegions[0].regions!
-                                print("parse complete")
-                                self.reloadCountriesTableView()
-                            }
-                        }
-        //                MapsInfoService.shared.saveRegionsInfo()
-                    }
-        //        } else {
-        //            MapsInfoService.shared.readSavedRegionsInfo()
-        //        }
-        // dumaju
+    func getMapsInfo() {
+        if !(MapsInfo.shared.allRegions.isEmpty) {
+            self.countries = MapsInfo.shared.allRegions[view.continentIndex].regions!
+            self.view.reloadTable()
+        }
     }
 }

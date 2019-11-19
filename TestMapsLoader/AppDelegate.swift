@@ -13,13 +13,33 @@ import BackgroundTasks
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 //        Save data then app go background
 //        BGAppRefreshTask.
+        MapsInfoService.shared.startMapsInfo()
+        
         return true
     }
+    //NotificationCenter.default.addObserver(self, selector: #selector(saveData), name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
+    
+    
+//    func applicationDidEnterBackground(_ application: UIApplication) {
+//        print("applicationDidEnterBackground")
+//        application.beginBackgroundTask {
+//            MapsInfoService.shared.saveRegionsInfo()
+//        }
+//        MapsInfoService.shared.saveRegionsInfo()
+//    }
+//    
+//    
+//    func applicationWillResignActive(_ application: UIApplication) {
+//        MapsInfoService.shared.saveRegionsInfo()
+//        print("applicationWillResignActive")
+//    }
+//    
+//    func sceneDidEnterBackground(_ scene: UIScene) {
+//        MapsInfoService.shared.saveRegionsInfo()
+//    }
 
     // MARK: UISceneSession Lifecycle
 

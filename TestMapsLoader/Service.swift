@@ -9,22 +9,12 @@
 import Foundation
 import SwiftyXMLParser
 
-class MapsInfoService: NSObject, XMLParserDelegate {
+class MapsInfoService {
 
     static let shared = MapsInfoService()
     
-    //Parsing temp vars
-    private var all: [Region] = []
-    private var continent: Region?
-    private var country: Region?
-    private var region: Region?
-    private var area: Region?
-    private var section: Region?
-
     
-    override private init() {
-        
-    }
+    private init() { }
     
     func getMemoryInfo() -> [String] {
         let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
@@ -47,79 +37,42 @@ class MapsInfoService: NSObject, XMLParserDelegate {
         return totalAndAvailableMemory
     }
     
-    // ==== PARSING ====
     
-    func parseRegionsXML(completionHandler: () -> Void) {
-        if let path = Bundle.main.url(forResource: "CountriesInfo", withExtension: "xml") {
-            if let parser = XMLParser(contentsOf: path) {
-                parser.delegate = self
-                let complete = parser.parse()
-                if complete {
-                    MapsInfo.shared.setInfo(continents: all)
-                    completionHandler()
+    // ==== USER DEFAULTS ====
+    
+    
+    func startMapsInfo() {
+        
+        if UserDefaults.standard.object(forKey: "MapsInfo") == nil {
+            if MapsInfo.shared.allRegions.isEmpty {
+                DispatchQueue.main.async {
+                    XMLParserForRegions.shared.parseRegionsXML {
+                        print("parse complete")
+                        MapsInfoService.shared.saveRegionsInfo()
+                        print("write to UserDefaults")
+                    }
                 }
             }
         } else {
-            debugPrint("wrong file name")
+            MapsInfoService.shared.readSavedRegionsInfo()
+            print("read from UserDefaults")
         }
     }
     
-    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-        if elementName == "region" {
-            var tempRegion = Region()
-            if let name = attributeDict["name"] {
-                tempRegion.name = name
-            }
-            
-            if continent == nil {
-                continent = tempRegion
-            } else if country == nil {
-                country = tempRegion
-            } else if region == nil {
-                region = tempRegion
-            } else if area == nil {
-                area = tempRegion
-            } else if section == nil {
-                section = tempRegion
+    func readSavedRegionsInfo() {
+        if let savedRegions = UserDefaults.standard.object(forKey: "MapsInfo") as? Data {
+            let decoder = JSONDecoder()
+            if let dataDecoded = try? decoder.decode([Region].self, from: savedRegions) {
+                MapsInfo.shared.setInfo(continents: dataDecoded)
             }
         }
     }
 
-    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if elementName == "region" {
-            if section != nil {
-                self.area?.regions?.append(section!)
-                section = nil
-            } else if area != nil {
-                self.region?.regions?.append(area!)
-                area = nil
-            } else if region != nil {
-                self.country?.regions?.append(region!)
-                region = nil
-            } else if country != nil {
-                self.continent?.regions?.append(country!)
-                country = nil
-            } else if continent != nil {
-                self.all.append(continent!)
-                continent = nil
-            }
+    func saveRegionsInfo() {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(MapsInfo.shared.getInfo()) {
+            UserDefaults.standard.set(encoded, forKey: "MapsInfo")
         }
     }
-    
-    //    func readSavedRegionsInfo() {
-    //        if let savedRegions = UserDefaults.standard.object(forKey: "MapsInfo") as? Data {
-    //            let decoder = JSONDecoder()
-    //            if let dataDecoded = try? decoder.decode([Region].self, from: savedRegions) {
-    //                MapsInfo.shared.setInfo(continents: dataDecoded)
-    //            }
-    //        }
-    //    }
-    //
-    //    func saveRegionsInfo() {
-    //        let encoder = JSONEncoder()
-    //        if let encoded = try? encoder.encode(MapsInfo.shared.getInfo()) {
-    //            UserDefaults.standard.set(encoded, forKey: "MapsInfo")
-    //        }
-    //    }
 }
 
