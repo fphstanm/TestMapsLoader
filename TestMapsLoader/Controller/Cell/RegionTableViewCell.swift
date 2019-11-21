@@ -28,27 +28,29 @@ class RegionTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        progressBar.progressValue = 0
         progressBar.isHidden = true
+        progressBar.progressValue = 0.0
     }
     
-    func setup(region: String, cellIndex: Int, loadStatus: DownloadStatus, countainRegions: Bool) {
+    func setup(name: String, cellIndex: Int, loadStatus: DownloadStatus, countainRegions: Bool) {
         self.cellIndex = cellIndex
-        self.regionName.text = region.capitalizingFirstLetter()
+        self.regionName.text = name
         setLoadColor(loadStatus)
 
         if countainRegions {
             setForwardButton()
         } else {
-            setLoadButton()
+            setLoadButton(loadStatus)
         }
         
         if loadStatus == .downloading {
             self.progressBar.isHidden = false
+        } else if loadStatus == .complete {
+            self.progressBar.isHidden = true
         }
     }
     
-    func updateDisplay(progress: Double, totalSize: String) {
+    func updateDisplay(progress: Double) {
         progressBar.progressValue = CGFloat(progress)
     }
     
@@ -59,13 +61,18 @@ class RegionTableViewCell: UITableViewCell {
         delegate?.onMapButtonPressed(self.cellIndex!)
     }
     
-    private func setLoadButton() {
+    private func setLoadButton(_ downloadStatus: DownloadStatus) {
         self.loadMapIcon.image = UIImage(named: "ic_custom_import")
         let loadRecognizer = UITapGestureRecognizer(target: self, action: #selector(onLoadMapViewPressed))
         loadRecognizer.delegate = self
-        
         self.loadMapView.addGestureRecognizer(loadRecognizer)
-        self.loadMapView.isUserInteractionEnabled = true
+
+        switch downloadStatus {
+        case .downloading, .notAvailable, .complete:
+            self.loadMapView.isUserInteractionEnabled = false
+        case .available:
+            self.loadMapView.isUserInteractionEnabled = true
+        }
     }
     
     private func setForwardButton() {
@@ -73,7 +80,7 @@ class RegionTableViewCell: UITableViewCell {
         self.loadMapView.isUserInteractionEnabled = false
     }
     
-    private func setLoadColor(_ status: DownloadStatus) {
+    func setLoadColor(_ status: DownloadStatus) {
         switch status {
         case .notAvailable:
             self.loadMapIcon.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)

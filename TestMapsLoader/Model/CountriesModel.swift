@@ -17,6 +17,7 @@ enum DownloadStatus: String, Codable {
 
 struct Region: Codable {
     var name = ""
+    var translate = ""
     var regions: [Region]? = []
     var loadStatus: DownloadStatus = .notAvailable
 }

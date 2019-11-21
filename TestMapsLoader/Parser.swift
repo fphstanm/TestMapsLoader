@@ -65,11 +65,26 @@ class XMLParserForRegions: NSObject, XMLParserDelegate, Observable {
      
      func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
          if elementName == "region" {
-             var tempRegion = Region()
-             if let name = attributeDict["name"] {
-                 tempRegion.name = name
-             }
-             
+            var tempRegion = Region()
+            if let name = attributeDict["name"] {
+                tempRegion.name = name
+            }
+            if var translate = attributeDict["translate"] {
+                if translate.contains(";") {
+                    translate = translate.components(separatedBy: ";")[0]
+                }
+                if translate.contains("=") {
+                    translate = translate.components(separatedBy: "=")[1]
+                }
+                tempRegion.translate = translate
+                
+            } else {
+                let name = tempRegion.name
+                tempRegion.translate = name.capitalizingFirstLetter()
+            }
+
+            tempRegion.loadStatus = .available
+            
              if continent == nil {
                  continent = tempRegion
              } else if country == nil {
@@ -90,15 +105,23 @@ class XMLParserForRegions: NSObject, XMLParserDelegate, Observable {
                  self.area?.regions?.append(section!)
                  section = nil
              } else if area != nil {
+                let sorted = self.area?.regions?.sorted(by: {$0.translate.localizedCaseInsensitiveCompare($1.translate) == ComparisonResult.orderedAscending})
+                self.area?.regions = sorted
                  self.region?.regions?.append(area!)
                  area = nil
              } else if region != nil {
+                let sorted = self.region?.regions?.sorted(by: {$0.translate.localizedCaseInsensitiveCompare($1.translate) == ComparisonResult.orderedAscending})
+                self.region?.regions = sorted
                  self.country?.regions?.append(region!)
                  region = nil
              } else if country != nil {
+                let sorted = self.country?.regions?.sorted(by: {$0.translate.localizedCaseInsensitiveCompare($1.translate) == ComparisonResult.orderedAscending})
+                self.country?.regions = sorted
                  self.continent?.regions?.append(country!)
                  country = nil
              } else if continent != nil {
+                let sorted = self.continent?.regions?.sorted(by: {$0.translate.localizedCaseInsensitiveCompare($1.translate) == ComparisonResult.orderedAscending})
+                self.continent?.regions = sorted
                  self.all.append(continent!)
                  continent = nil
              }

@@ -33,13 +33,17 @@ class DownloaderModel {
      }
     
     private func downlaod() {
-        let fileName = formFileName(downloadSequence.first!)
+        let currentIndexPath = downloadSequence.first!
+        self.downloadSequence = Array(self.downloadSequence.dropFirst())
+        
+        let fileName = formFileName(currentIndexPath)
         let serverStartUrl: String = "http://download.osmand.net/download.php?standard=yes&file="
-        let viewControllerID = generateId(downloadSequence.first!)
+        let viewControllerID = generateId(currentIndexPath)
 
         let destination = formDestination(fileName)
         
-        self.dataStore.changeLoadStatus(status: .downloading, regionsIndexPath: downloadSequence.first!)
+        self.dataStore.changeLoadStatus(status: .downloading, regionsIndexPath: currentIndexPath)
+        let cellIndex = currentIndexPath.last!
 
         AF.download(serverStartUrl + fileName, to: destination)
         .downloadProgress { [weak self] progress in
@@ -47,18 +51,15 @@ class DownloaderModel {
                 for delegate in all {
                     if let d = delegate as? DownloaderModelDelegate {
                         d.updateProgress(progress: progress.fractionCompleted,
-                                         index: self!.downloadSequence.first!.last!,//Last
+                                         index: cellIndex,//Last
                                          viewControllerID: viewControllerID)
                     }
                 }
             }
         }
         .responseData { response in
-            self.dataStore.changeLoadStatus(status: .complete, regionsIndexPath: self.downloadSequence.first!)
-            MapsInfoService.shared.saveRegionsInfo() //TODO save regions should called then app goes background
-            
-            //TODO: call reloadCell
-            self.downloadSequence = Array(self.downloadSequence.dropFirst())
+            self.dataStore.changeLoadStatus(status: .complete, regionsIndexPath: currentIndexPath)
+            MapsInfoService.shared.saveRegionsInfo() //TODO saveRegions should be called then app go background
             
             self.isDownloading = false
             if !self.downloadSequence.isEmpty {

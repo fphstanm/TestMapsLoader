@@ -12,10 +12,10 @@ import Foundation
 import UIKit
 
 class RegionsViewController: UIViewController,
-                             
                              RegionCellDelegate {
     
     @IBOutlet weak var regionsTableView: UITableView!
+    
     var model: DownloaderModel?
     lazy var presenter = RegionsPresenter(view: self)
     
@@ -28,12 +28,14 @@ class RegionsViewController: UIViewController,
     
     override func viewDidLoad() {
         let title = (self.presenter.countryName).capitalizingFirstLetter()
-        self.navigationItem.title = title
+        self.navigationItem.title = "1"
+        //TODO: Add title
     }
     
     func onMapButtonPressed(_ cellIndex: Int) {
         var indexPathForMap = regionIndexPath
         indexPathForMap.append(cellIndex)
+        presenter.regions[cellIndex].loadStatus = .downloading
         self.model?.addToDownloadQueue(indexPathForMap)
     }
 }
@@ -55,8 +57,15 @@ extension RegionsViewController: DownloaderModelDelegate {
         
         if id == viewControllerID {
             if let mapCell = self.regionsTableView.cellForRow(at: IndexPath(row: index, section: 0)) as? RegionTableViewCell {
-                mapCell.updateDisplay(progress: progress * 100, totalSize: "100")
-                mapCell.progressBar.isHidden = false //FIXME isHidden
+                mapCell.updateDisplay(progress: progress * 100)
+                print(progress)
+                if progress == 1.0 {
+                    mapCell.progressBar.isHidden = true
+                    mapCell.setLoadColor(.complete)
+                    self.presenter.regions[index].loadStatus = .complete //Arch error
+                } else {
+                    mapCell.progressBar.isHidden = false //FIXME isHidden
+                }
             }
         }
     }
@@ -78,7 +87,7 @@ extension RegionsViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = regionsTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RegionTableViewCell
         let containRegions: Bool = !(presenter.regions[indexPath.row].regions!.isEmpty) // Move to presenter
 
-        cell.setup(region: presenter.regions[indexPath.row].name,
+        cell.setup(name: presenter.regions[indexPath.row].translate,
                    cellIndex: indexPath.row,
                    loadStatus: presenter.regions[indexPath.row].loadStatus,
                    countainRegions: containRegions)

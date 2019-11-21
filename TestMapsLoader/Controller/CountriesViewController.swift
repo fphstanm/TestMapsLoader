@@ -76,8 +76,16 @@ extension CountriesTableViewController: DownloaderModelDelegate {
         
         if id == viewControllerID {
             if let mapCell = self.countriesTableView.cellForRow(at: IndexPath(row: index, section: 0)) as? CountryTableViewCell {
-                mapCell.updateDisplay(progress: progress * 100, totalSize: "100")
+                mapCell.updateDisplay(progress: progress * 100)
                 mapCell.progressBar.isHidden = false //FIXME isHidden
+                print(progress)
+                 if progress == 1.0 {
+                     mapCell.progressBar.isHidden = true
+                     mapCell.setLoadColor(.complete)
+                     self.presenter.countries[index].loadStatus = .complete //Arch error
+                 } else {
+                     mapCell.progressBar.isHidden = false //FIXME isHidden
+                 }
             }
         }
     }
@@ -97,7 +105,7 @@ extension CountriesTableViewController: UITableViewDataSource, UITableViewDelega
         let cell = countriesTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CountryTableViewCell
         let containRegions: Bool = !(presenter.countries[indexPath.row].regions!.isEmpty) // Move to presenter
         
-        cell.setup(country: presenter.countries[indexPath.row].name,  // Move to presenter
+        cell.setup(name: presenter.countries[indexPath.row].translate,  // Move to presenter
                    cellIndex: indexPath.row,
                    countainRegions: containRegions,
                    laodStatus: presenter.countries[indexPath.row].loadStatus)  // Move to presenter

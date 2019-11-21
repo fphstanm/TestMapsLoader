@@ -32,9 +32,9 @@ class CountryTableViewCell: UITableViewCell {
         progressBar.isHidden = true
     }
     
-    func setup(country: String, cellIndex: Int, countainRegions: Bool, laodStatus: DownloadStatus) {
+    func setup(name: String, cellIndex: Int, countainRegions: Bool, laodStatus: DownloadStatus) {
         self.cellIndex = cellIndex
-        self.countryName.text = country.capitalizingFirstLetter()
+        self.countryName.text = name
         setLoadColor(laodStatus)
         
         if countainRegions {
@@ -48,7 +48,7 @@ class CountryTableViewCell: UITableViewCell {
         }
     }
     
-    func updateDisplay(progress: Double, totalSize: String) {
+    func updateDisplay(progress: Double) {
         progressBar.progressValue = CGFloat(progress)
     }
     
@@ -60,7 +60,7 @@ class CountryTableViewCell: UITableViewCell {
     }
     
     
-    private func setLoadColor(_ status: DownloadStatus) {
+    func setLoadColor(_ status: DownloadStatus) {
         switch status {
         case .notAvailable:
             self.loadMapIcon.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
