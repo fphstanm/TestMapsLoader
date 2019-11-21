@@ -34,7 +34,7 @@ class RegionsViewController: UIViewController,
     func onMapButtonPressed(_ cellIndex: Int) {
         var indexPathForMap = regionIndexPath
         indexPathForMap.append(cellIndex)
-        self.model?.downloadMap(indexPathForMap)
+        self.model?.addToDownloadQueue(indexPathForMap)
     }
 }
 

@@ -17,40 +17,53 @@ class DownloaderModel {
     let dataStore = MapsInfo.shared
     
     private var delegates = NSHashTable<AnyObject>.weakObjects()
+    private var downloadSequence: [[Int]] = []
+    private var isDownloading = false
     
     func register(_ controller: DownloaderModelDelegate) {
         self.delegates.add(controller)
     }
     
-    
-    func downloadMap(_ regionsIndices: [Int]) {
-        let fileName = formFileName(regionsIndices)
-        let serverStartUrl: String = "http://download.osmand.net/download.php?standard=yes&file="
-        let viewControllerID = generateId(regionsIndices)
-
-        let destination: DownloadRequest.Destination = { _, _ in
-            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let fileURL = documentsURL.appendingPathComponent(fileName)
-            print("fileUrl: ",fileURL)
-            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+    func addToDownloadQueue(_ regionsIndices: [Int]) {
+        downloadSequence.append(regionsIndices)
+        if !isDownloading {
+            isDownloading = true
+            downlaod()
         }
+     }
+    
+    private func downlaod() {
+        let fileName = formFileName(downloadSequence.first!)
+        let serverStartUrl: String = "http://download.osmand.net/download.php?standard=yes&file="
+        let viewControllerID = generateId(downloadSequence.first!)
+
+        let destination = formDestination(fileName)
         
-        self.dataStore.changeLoadStatus(status: .downloading, regionsIndexPath: regionsIndices)
+        self.dataStore.changeLoadStatus(status: .downloading, regionsIndexPath: downloadSequence.first!)
 
         AF.download(serverStartUrl + fileName, to: destination)
-            .downloadProgress { [weak self] progress in
-                if let all = self?.delegates.allObjects {
-                    for delegate in all {
-                        if let d = delegate as? DownloaderModelDelegate {
-                            d.updateProgress(progress: progress.fractionCompleted, index: regionsIndices.last!, viewControllerID: viewControllerID)
-                        }
+        .downloadProgress { [weak self] progress in
+            if let all = self?.delegates.allObjects {
+                for delegate in all {
+                    if let d = delegate as? DownloaderModelDelegate {
+                        d.updateProgress(progress: progress.fractionCompleted,
+                                         index: self!.downloadSequence.first!.last!,//Last
+                                         viewControllerID: viewControllerID)
                     }
                 }
+            }
         }
         .responseData { response in
-            self.dataStore.changeLoadStatus(status: .complete, regionsIndexPath: regionsIndices)
-            //FIXME move it out
-            MapsInfoService.shared.saveRegionsInfo()
+            self.dataStore.changeLoadStatus(status: .complete, regionsIndexPath: self.downloadSequence.first!)
+            MapsInfoService.shared.saveRegionsInfo() //TODO save regions should called then app goes background
+            
+            //TODO: call reloadCell
+            self.downloadSequence = Array(self.downloadSequence.dropFirst())
+            
+            self.isDownloading = false
+            if !self.downloadSequence.isEmpty {
+                self.downlaod()
+            }
         }
     }
     
@@ -85,6 +98,16 @@ class DownloaderModel {
         }
 
         return countryName.capitalizingFirstLetter() + tempName + "_" + continentName + "_2.obf.zip"
+    }
+    
+    func formDestination(_ fileName: String) -> DownloadRequest.Destination {
+        let destination: DownloadRequest.Destination = { _, _ in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let fileURL = documentsURL.appendingPathComponent(fileName)
+            print("fileUrl: ",fileURL)
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        return destination
     }
     
 }

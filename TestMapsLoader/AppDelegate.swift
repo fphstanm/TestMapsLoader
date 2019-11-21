@@ -41,6 +41,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        MapsInfoService.shared.saveRegionsInfo()
 //    }
 
+//    // Add this to didMoveToView in your SKScene subclass
+//    NotificationCenter.default.addObserver(self, selector: #selector(saveData), name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
+//
+//    @objc func saveData(notification:NSNotification) {
+//        // Save your data here
+//        print("Saving data...")
+//    }
+    
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

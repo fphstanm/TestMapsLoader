@@ -27,7 +27,6 @@ class MapsInfo {
         self.allRegions = continents
     }
     
-    //TODO: write func with [index]
     func changeLoadStatus(status: DownloadStatus, regionsIndexPath: [Int]) {
         let i = regionsIndexPath
         

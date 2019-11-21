@@ -49,7 +49,7 @@ class CountriesTableViewController: UIViewController, CountryTableViewCellDelega
     func onMapButtonPressed(_ cellIndex: Int) {
         var indexPathForMap = [continentIndex]
         indexPathForMap.append(cellIndex)
-        self.model.downloadMap(indexPathForMap)
+        self.model.addToDownloadQueue(indexPathForMap)
     }
     
     private func setDiskSpace() {
